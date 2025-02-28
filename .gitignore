@@ -1,0 +1,64 @@
+# Ignore Gradle files
+.gradle/
+build/
+**/build/
+
+# Ignore Android Studio files
+.idea/
+*.iml
+.gradle/
+
+# User-specific files
+local.properties
+
+# Mac system files
+.DS_Store
+
+# IntelliJ IDEA
+out/
+
+# Android specific
+*.apk
+*.ap_ 
+*.dex
+*.class
+*.so
+*.jar
+*.war
+*.ear
+*.db
+*.log
+
+# Ignore generated files
+captures/
+externalNativeBuild/
+.idea/
+.idea_modules/
+
+# Kotlin specific
+*.kotlin_module
+*.kotlin_cache/
+
+# Gradle wrapper
+gradle-wrapper.jar
+
+# Android Studio Profiler files
+*.hprof
+
+# NDK
+obj/
+
+# Android Build outputs
+*.apk
+*.ap_
+
+# Ignore lint reports
+lint-report.xml
+lint-results.xml
+
+# JetBrains IDEs
+.idea/
+
+# Android Studio
+*.iml
+

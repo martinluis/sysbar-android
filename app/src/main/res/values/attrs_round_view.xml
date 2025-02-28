@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="RoundView">
+        <attr name="opacity" format="integer" />
+    </declare-styleable>
+</resources>

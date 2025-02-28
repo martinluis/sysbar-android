@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">SysBar</string>
+
+    <!-- ERROR CODES-->
+    <string name="error_generic">Ooops! Algo salio mal</string>
+    <string name="error_user_code_invalid">Usuario no valido</string>
+
+
+    <!-- SIDE MENU -->
+    <string name="menu_side_home">Inicio</string>
+    <string name="menu_side_users">Usuarios</string>
+    <string name="menu_side_close">Cerrar Menu</string>
+    <string name="menu_side_open">Abrir Menu</string>
+    <string name="menu_side_logout">Salir</string>
+    <string name="menu_side_reset_pass">Cambiar Password</string>
+
+    <!-- ACCESS -->
+    <string name="access_code">Codigo</string>
+    <string name="access_access">Acceder</string>
+
+
+
+</resources>
