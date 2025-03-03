@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lcmm.sysbar.android"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -49,6 +49,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.flexbox)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)

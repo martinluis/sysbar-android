@@ -18,6 +18,10 @@
     <string name="access_code">Codigo</string>
     <string name="access_access">Acceder</string>
 
-
+    <!-- HOME -->
+    <string name="home_tables">Mesas</string>
+    <string name="home_orders">Ordenes</string>
+    <string name="home_kitchen">Cocina</string>
+    <string name="home_bar">Barra</string>
 
 </resources>

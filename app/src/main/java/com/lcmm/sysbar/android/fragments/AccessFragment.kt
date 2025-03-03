@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.databinding.FragmentAccessBinding
 import com.lcmm.sysbar.android.models.ErrorResponse
 import com.lcmm.sysbar.android.models.User
@@ -24,6 +27,7 @@ class AccessFragment : Fragment() {
 
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var localStorageService: LocalStorageService
+    private lateinit var navController: NavController
 
     /**
      *
@@ -41,6 +45,7 @@ class AccessFragment : Fragment() {
      *
      */
     private fun initView() {
+        navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
         binding.accessMsgText.visibility = View.GONE
     }
@@ -95,6 +100,7 @@ class AccessFragment : Fragment() {
         binding.accessMsgText.visibility = View.GONE
         user.let {
             localStorageService.setActiveUser(user)
+            navController.navigate(R.id.action_accessFragment_to_homeFragment)
         }
     }
 

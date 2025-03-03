@@ -3,6 +3,7 @@
     <style name="Base.Theme.Sysbarandroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/primary</item>
+        <item name="android:fontFamily">@font/sf_pro</item>
     </style>
 
     <style name="Theme.Sysbarandroid" parent="Base.Theme.Sysbarandroid" >
