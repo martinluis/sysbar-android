@@ -1,15 +1,18 @@
 package com.lcmm.sysbar.android.fragments
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.lcmm.sysbar.android.databinding.FragmentAccessBinding
 import com.lcmm.sysbar.android.models.ErrorResponse
 import com.lcmm.sysbar.android.models.User
+import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.utils.ErrorHandler
 import com.lcmm.sysbar.android.viewModel.UserViewModel
 
@@ -20,7 +23,7 @@ class AccessFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val userViewModel: UserViewModel by viewModels()
-
+    private lateinit var localStorageService: LocalStorageService
 
     /**
      *
@@ -29,6 +32,7 @@ class AccessFragment : Fragment() {
         _binding = FragmentAccessBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         initView()
+        initListeners()
         initObservers()
         return this.binding.root
     }
@@ -37,7 +41,38 @@ class AccessFragment : Fragment() {
      *
      */
     private fun initView() {
+        localStorageService = LocalStorageService(requireContext())
         binding.accessMsgText.visibility = View.GONE
+    }
+
+    /**
+     *
+     */
+    private fun initListeners() {
+        binding.accessButton.setOnClickListener {
+            val code = binding.codeInput.editText?.text.toString()
+            if (code.isNotEmpty()) {
+                userViewModel.requestUserAccess(code)
+            }
+        }
+
+        binding.codeInput.editText?.setOnEditorActionListener { _, actionId, _ ->
+            val code = binding.codeInput.editText?.text.toString()
+            if (code.isNotEmpty()) {
+                userViewModel.requestUserAccess(code)
+            }
+            true
+        }
+
+        binding.codeInput.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val code = binding.codeInput.editText?.text.toString()
+                userViewModel.requestUserAccess(code)
+                true // Return true to indicate that the key event is handled
+            } else {
+                false
+            }
+        }
     }
 
     /**
@@ -47,12 +82,10 @@ class AccessFragment : Fragment() {
         userViewModel.userLiveData.observe(requireActivity()) { user ->
             handleResponseUserAccess(user)
         }
-
         userViewModel.errorLiveData.observe(requireActivity()) { error ->
             handleResponseError(error)
         }
 
-        userViewModel.requestUserAccess("dev")
     }
 
     /**
@@ -61,7 +94,7 @@ class AccessFragment : Fragment() {
     private fun handleResponseUserAccess(user: User) {
         binding.accessMsgText.visibility = View.GONE
         user.let {
-            binding.accessMsgText.text = it.role
+            localStorageService.setActiveUser(user)
         }
     }
 

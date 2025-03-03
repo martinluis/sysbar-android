@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondary"
     tools:context=".fragments.AccessFragment">
 
 
@@ -28,7 +27,6 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/container_round"
-            android:backgroundTint="@color/white"
             android:paddingHorizontal="40dp"
             android:paddingVertical="40dp"
             android:elevation="40dp">
@@ -40,14 +38,17 @@
                     android:id="@+id/codeInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextInputLayoutStyle"
                     android:hint="@string/access_code">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
                 <Button
-                    android:id="@+id/codeButton"
+                    android:id="@+id/accessButton"
                     style="@style/Widget.Material3.Button"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"

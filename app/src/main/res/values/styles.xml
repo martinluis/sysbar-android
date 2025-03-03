@@ -5,4 +5,10 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="TextInputLayoutStyle">
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxBackgroundMode">outline</item>
+    </style>
+
 </resources>
