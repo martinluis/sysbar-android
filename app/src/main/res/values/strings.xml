@@ -23,5 +23,7 @@
     <string name="home_orders">Ordenes</string>
     <string name="home_kitchen">Cocina</string>
     <string name="home_bar">Barra</string>
+    <string name="home_active_user">Usuario: %1$s</string>
+
 
 </resources>

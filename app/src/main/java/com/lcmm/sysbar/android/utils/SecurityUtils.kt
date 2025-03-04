@@ -7,7 +7,7 @@ class SecurityUtils { companion object {
     /**
      *
      */
-    public fun hasPermissions(roles: Set<Role>, role: Role ): Boolean {
+    fun hasPermissions(roles: Set<Role>, role: Role ): Boolean {
         return roles.contains(role) || roles.contains(Role.ADMIN)
     }
 }}
