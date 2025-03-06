@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/accessFragment"
         android:name="com.lcmm.sysbar.android.fragments.AccessFragment"
-        android:label="fragment_login"
+        android:label="fragment_access"
         tools:layout="@layout/fragment_access">
         <action
             android:id="@+id/action_accessFragment_to_homeFragment"
@@ -18,7 +18,16 @@
         android:id="@+id/homeFragment"
         android:name="com.lcmm.sysbar.android.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_tablesFragment"
+            app:destination="@id/tablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tablesFragment"
+        android:name="com.lcmm.sysbar.android.fragments.TablesFragment"
+        android:label="fragment_tables"
+        tools:layout="@layout/fragment_tables" />
 
 
 </navigation>

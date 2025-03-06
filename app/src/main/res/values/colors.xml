@@ -4,11 +4,14 @@
     <color name="secondary">#76BBDD</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="disable">#FFBDBDBD</color>
-    <color name="success">#337C36</color>
+    <color name="disable">#E2E2E2</color>
+    <color name="success">#88C08A</color>
     <color name="alert">#B4A52A</color>
     <color name="warning">#F05B2C</color>
     <color name="error">#AC0D02</color>
+    <color name="gray">#A0A0A0</color>
     <color name="light_blue_400">#FF29B6F6</color>
     <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
 </resources>

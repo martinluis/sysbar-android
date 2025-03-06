@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lcmm.sysbar.android.MainActivity
+import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.databinding.FragmentHomeBinding
 import com.lcmm.sysbar.android.enums.Role
 import com.lcmm.sysbar.android.services.LocalStorageService
@@ -39,9 +40,9 @@ class HomeFragment : Fragment() {
     private fun initView() {
         navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
-        (activity as MainActivity).updateUserInfo(localStorageService.getActiveUser()!!)
         val user = localStorageService.getActiveUser()
-        binding.tablesItem.visibility = if (SecurityUtils.hasPermissions(user?.roles!!, Role.CASHIER)) View.VISIBLE else View.GONE
+        (activity as MainActivity).updateUserInfo(user!!)
+        binding.tablesItem.visibility = if (SecurityUtils.hasPermissions(user.roles, Role.CASHIER)) View.VISIBLE else View.GONE
     }
 
     /**
@@ -49,8 +50,7 @@ class HomeFragment : Fragment() {
      */
     private fun initListeners() {
         binding.tablesItem.setOnClickListener {
-            var v = 1;
-            v = 3;
+            navController.navigate(R.id.action_homeFragment_to_tablesFragment)
         }
     }
 

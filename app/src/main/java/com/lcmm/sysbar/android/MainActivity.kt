@@ -3,6 +3,7 @@ package com.lcmm.sysbar.android
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -22,8 +23,10 @@ class MainActivity : AppCompatActivity() {
         this.binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.userText.setOnClickListener {
-            navigateToFragment( R.id.accessFragment )
+            navigateToAccess()
         }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         this.initToolbar()
         this.initDrawer()
         this.initSideMenu()
@@ -73,8 +76,9 @@ class MainActivity : AppCompatActivity() {
     /**
      *
      */
-    private fun navigateToFragment(fragment: Int) {
+    private fun navigateToAccess() {
         val navController = findNavController(R.id.nav_host_fragment_container)
-        navController.navigate(fragment)
+        navController.popBackStack(R.id.accessFragment, true)
+        navController.navigate(R.id.accessFragment)
     }
 }

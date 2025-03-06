@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="TableItem">
+        <attr name="tableName" format="string" />
+        <attr name="isActive" format="boolean" />
+    </declare-styleable>
+</resources>

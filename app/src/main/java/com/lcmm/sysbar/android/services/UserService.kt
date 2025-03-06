@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface UserService {
-    @GET("user") // Adjust the endpoint as needed
+    @GET("user/") // Adjust the endpoint as needed
     suspend fun getAll(): List<User>
 
     @GET("user/requestAccess") // Adjust the endpoint as needed
