@@ -40,4 +40,8 @@ object RetrofitClient {
     val tableService: TableService by lazy {
         retrofit.create(TableService::class.java)
     }
+
+    val orderService: OrderService by lazy {
+        retrofit.create(OrderService::class.java)
+    }
 }

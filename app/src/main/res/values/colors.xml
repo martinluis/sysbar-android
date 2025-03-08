@@ -3,6 +3,7 @@
     <color name="primary">#004668</color>
     <color name="secondary">#76BBDD</color>
     <color name="black">#FF000000</color>
+    <color name="black_2">#1B1A1A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="disable">#E2E2E2</color>
     <color name="success">#88C08A</color>

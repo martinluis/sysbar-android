@@ -27,7 +27,8 @@ class TableListAdapter (
                     RelativeLayout.LayoutParams.WRAP_CONTENT
                 )
                 val scale = resources.displayMetrics.density
-                val dpAsPixels = (10.0f * scale + 0.5f).toInt()
+                val marginSize = 10.0f
+                val dpAsPixels = (marginSize * scale + 0.5f).toInt()
                 params.setMargins(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
                 layoutParams = params
                 setTable(table)

@@ -1,9 +1,13 @@
 package com.lcmm.sysbar.android
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -27,11 +31,21 @@ class MainActivity : AppCompatActivity() {
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        this.initNavigation()
         this.initToolbar()
         this.initDrawer()
         this.initSideMenu()
     }
 
+
+    /**
+     *
+     */
+    private fun initNavigation() {
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        NavigationUI.setupWithNavController(this.binding.sideMenu, navHostFragment.navController, )
+    }
 
     /**
      *
@@ -45,8 +59,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initSideMenu() {
         this.binding.sideMenu.bringToFront()
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
-        NavigationUI.setupWithNavController(this.binding.sideMenu, navHostFragment.navController)
     }
 
     /**
@@ -79,6 +91,46 @@ class MainActivity : AppCompatActivity() {
     private fun navigateToAccess() {
         val navController = findNavController(R.id.nav_host_fragment_container)
         navController.popBackStack(R.id.accessFragment, true)
-        navController.navigate(R.id.accessFragment)
+        navController.navigateBack(R.id.accessFragment,null)
     }
+}
+
+/**
+ *  Extension function on NavController - Forward
+ */
+fun NavController.navigateForward(@IdRes destinationId: Int, args: Bundle? ) {
+    val navOptions = NavOptions.Builder()
+        .setEnterAnim(R.anim.slide_in)  // Enter animation
+        .setExitAnim(R.anim.fade_out)    // Exit animation
+        .setPopEnterAnim(R.anim.fade_in) // Pop enter animation (when going back)
+        .setPopExitAnim(R.anim.slide_out)   // Pop exit animation (when going back)
+        .build()
+    this.navigate(destinationId, args, navOptions)
+}
+
+/**
+ *
+ */
+fun NavController.navigateForward(directions: NavDirections) {
+    navigateForward(directions.actionId, directions.arguments)
+}
+
+/**
+*  Extension function on NavController - Back
+*/
+fun NavController.navigateBack(@IdRes destinationId: Int, args: Bundle?) {
+    val navOptions = NavOptions.Builder()
+        .setEnterAnim(R.anim.slide_out)  // Enter animation
+        .setExitAnim(R.anim.fade_in)    // Exit animation
+        .setPopEnterAnim(R.anim.fade_out) // Pop enter animation (when going back)
+        .setPopExitAnim(R.anim.slide_in)   // Pop exit animation (when going back)
+        .build()
+    this.navigate(destinationId, args, navOptions)
+}
+
+/**
+*  Extension function on NavController - Back
+*/
+fun NavController.navigateBack(directions: NavDirections) {
+    this.navigateBack(directions.actionId, directions.arguments)
 }

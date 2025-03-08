@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -13,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.lcmm.sysbar.android.adapters.TableListAdapter
 import com.lcmm.sysbar.android.databinding.FragmentTablesBinding
 import com.lcmm.sysbar.android.models.Table
+import com.lcmm.sysbar.android.navigateForward
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.TableViewModel
-import com.lcmm.sysbar.android.viewModel.UserViewModel
 
 
 class TablesFragment : Fragment() {
@@ -68,7 +67,10 @@ class TablesFragment : Fragment() {
      *
      */
     private fun handleSelectTable(table: Table){
-        Toast.makeText(requireContext(), "Clicked: ${table.name}", Toast.LENGTH_SHORT).show()
+        table.id?.let { id ->
+            val action = TablesFragmentDirections.actionTablesFragmentToOrderFragment(id)
+            navController.navigateForward(action)
+        }
     }
 
     /**

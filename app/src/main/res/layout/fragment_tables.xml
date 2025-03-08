@@ -15,36 +15,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <com.lcmm.sysbar.android.components.CustomView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/secondary"
-                app:opacity="15"
-                android:background="@drawable/container_round">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                app:isRound="false"
+                app:borderSize="0"
+                app:opacity="15">
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-                        <Button
-                            android:id="@+id/accessButton"
-                            style="@style/Widget.Material3.Button"
-                            android:layout_width="150dp"
-                            android:layout_height="56dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="20dp"
-                            android:backgroundTint="@color/primary"
-                            android:text="@string/tables_personal" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    android:orientation="horizontal"
+                    android:gravity="end">
+                    <Button
+                        android:id="@+id/accessButton"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/primary"
+                        android:text="@string/table_personal" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.lcmm.sysbar.android.components.CustomView>
 
             <com.google.android.flexbox.FlexboxLayout

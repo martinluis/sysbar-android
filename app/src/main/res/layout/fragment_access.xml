@@ -26,14 +26,10 @@
         <com.lcmm.sysbar.android.components.CustomView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/container_round"
             android:paddingHorizontal="40dp"
             android:paddingVertical="40dp"
-            android:elevation="40dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            android:orientation="vertical"
+            android:elevation="10dp">
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/codeInput"
                     android:layout_width="match_parent"
@@ -65,7 +61,6 @@
                     android:gravity="center"
                     android:textColor="@color/error"
                     />
-            </LinearLayout>
         </com.lcmm.sysbar.android.components.CustomView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,7 +20,7 @@ class ErrorHandler { companion object {
             try {
                 val jsonResponse= JSONObject(ex.response()?.errorBody()!!.string())
                 errorResponse = Gson().fromJson(jsonResponse.toString(), ErrorResponse::class.java)
-                if (errorResponse.message==null || errorResponse.message.isEmpty()) errorResponse.message = "HTTP ERROR: " + ex.code()
+                if (errorResponse.message.isEmpty()) errorResponse.message = "HTTP ERROR: " + ex.code()
 
             }
             catch (jsonEx: JSONException){

@@ -1,11 +1,12 @@
 package com.lcmm.sysbar.android.components
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import com.lcmm.sysbar.android.R
 
 /**
@@ -15,33 +16,56 @@ class CustomView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : LinearLayoutCompat(context, attrs, defStyleAttr) {
 
 
     init {
         // Inflate the custom layout
-        LayoutInflater.from(context).inflate(R.layout.view_round, this, true)
+        LayoutInflater.from(context).inflate(R.layout.custom_view, this, true)
 
         // Optionally handle attributes
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.RoundView)
-        val opacityValue = attributes.getString(R.styleable.RoundView_opacity)
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomView)
+        val opacityValue = attributes.getInt(R.styleable.CustomView_opacity, 100)
+        val isRoundValue = attributes.getBoolean(R.styleable.CustomView_isRound, true)
+        val color = attributes.getColor(R.styleable.CustomView_color, context.getColor(R.color.white))
+        val borderColor = attributes.getColor(R.styleable.CustomView_borderColor, context.getColor(R.color.secondary))
+        val borderSize = attributes.getInt(R.styleable.CustomView_borderSize, 1)
         attributes.recycle()
-
-        setupTransparency(opacityValue?.toInt())
+        background = ContextCompat.getDrawable(context, R.drawable.container_round)
+        setupBackground(color, opacityValue)
+        setupRoundCorners(isRoundValue)
+        setupBorder(borderColor, borderSize)
     }
 
     /**
      *
      */
-    private fun setupTransparency(value: Int?){
-        if ( value == null || value<1 || value>100){
-            return
+    private fun setupBackground(color: Int, opacity: Int) {
+        val alpha = (255 / 100) * opacity
+        val finalColor = Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
+        val backgroundDrawable = background as GradientDrawable
+        backgroundDrawable.setColor(finalColor)
+    }
+
+    /**
+     *
+     */
+    private fun setupBorder(color: Int, borderSize: Int) {
+        val scale = resources.displayMetrics.density
+        val borderSizeAsPixels = (borderSize * scale + 0.5f).toInt()
+        val backgroundDrawable = background as GradientDrawable
+        backgroundDrawable.setStroke(borderSizeAsPixels, color)
+    }
+
+    /**
+     *
+     */
+    private fun setupRoundCorners(isRound: Boolean) {
+        // Only validate when FALSE because the round value comes from container_round
+        if (!isRound) {
+            val backgroundDrawable = background as GradientDrawable
+            backgroundDrawable.cornerRadius = 0f
         }
-        // Get the color from resources
-        val color = this.backgroundTintList?.defaultColor ?: Color.TRANSPARENT
-        val alpha = (255/100)*value
-        val transparentColor = Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-        this.backgroundTintList = ColorStateList.valueOf(transparentColor)
     }
 
 }

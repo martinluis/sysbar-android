@@ -1,5 +1,9 @@
 <resources>
-    <declare-styleable name="RoundView">
+    <declare-styleable name="CustomView">
+        <attr name="color" format="color" />
         <attr name="opacity" format="integer" />
+        <attr name="isRound" format="boolean" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderSize" format="integer" />
     </declare-styleable>
 </resources>

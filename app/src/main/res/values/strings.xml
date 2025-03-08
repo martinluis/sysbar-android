@@ -25,7 +25,9 @@
     <string name="home_bar">Barra</string>
     <string name="home_active_user">Usuario: %1$s</string>
 
-    <!-- TABLES -->
-    <string name="tables_personal">Personal</string>
+    <!-- TABLE -->
+    <string name="table_personal">Personal</string>
+
+    <!-- ORDER -->
 
 </resources>

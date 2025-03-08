@@ -15,6 +15,7 @@ import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.databinding.FragmentAccessBinding
 import com.lcmm.sysbar.android.models.ErrorResponse
 import com.lcmm.sysbar.android.models.User
+import com.lcmm.sysbar.android.navigateForward
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.utils.ErrorHandler
 import com.lcmm.sysbar.android.viewModel.UserViewModel
@@ -61,7 +62,7 @@ class AccessFragment : Fragment() {
             }
         }
 
-        binding.codeInput.editText?.setOnEditorActionListener { _, actionId, _ ->
+        binding.codeInput.editText?.setOnEditorActionListener { _, _, _ ->
             val code = binding.codeInput.editText?.text.toString()
             if (code.isNotEmpty()) {
                 userViewModel.requestUserAccess(code)
@@ -100,7 +101,7 @@ class AccessFragment : Fragment() {
         binding.accessMsgText.visibility = View.GONE
         user.let {
             localStorageService.setActiveUser(user)
-            navController.navigate(R.id.action_accessFragment_to_homeFragment)
+            navController.navigateForward(R.id.action_accessFragment_to_homeFragment,null)
         }
     }
 
