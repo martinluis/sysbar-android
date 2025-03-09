@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.lcmm.sysbar.android.components.OnConfirmClickListener
 import com.lcmm.sysbar.android.databinding.FragmentOrderBinding
 import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.services.LocalStorageService
@@ -35,6 +37,7 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         initView()
+        initListeners()
         initObservers()
         return binding.root
     }
@@ -45,6 +48,22 @@ class OrderFragment : Fragment() {
     private fun initView() {
         navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
+    }
+
+    /**
+     *
+     */
+    private fun initListeners() {
+        val summaryOrderViewListener = object: OnConfirmClickListener {
+            override fun onConfirmButtonClick() {
+                Toast.makeText(requireContext(), "Button clicked in custom view", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCancelButtonClick() {
+                Toast.makeText(requireContext(), "Button cancel clicked in custom view", Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.orderSummaryView.setOnConfirmClickListener(summaryOrderViewListener)
     }
 
     /**

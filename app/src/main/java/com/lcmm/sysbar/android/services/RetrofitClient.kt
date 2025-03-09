@@ -7,8 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://192.168.1.68:8080/sysbar/api/"
-    //private const val BASE_URL = "http://10.0.2.2:8080/sysbar/api/"
+    //private const val BASE_URL = "http://192.168.1.68:8080/sysbar/api/"
+    private const val BASE_URL = "http://10.0.2.2:8080/sysbar/api/"
     private const val API_KEY = "Us73mPtWRFhtcqm57Jf7VI5pmsT7KzN5kM5mYJDZn2sdp0zerPy3Zu06z36KelX1"
 
     // Create an Interceptor to add the API key to the header

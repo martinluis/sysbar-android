@@ -12,9 +12,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="5dp"
-        android:layout_weight="1.25"
+        android:layout_weight="1.5"
         app:isRound="false"
-        app:borderColor="@color/black_2">
+        app:borderColor="@color/gray_2">
     </com.lcmm.sysbar.android.components.CustomView>
 
 
@@ -25,7 +25,11 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         app:isRound="false"
-        app:borderColor="@color/black_2">
+        app:borderColor="@color/gray_2">
+        <com.lcmm.sysbar.android.components.SummaryOrderView
+            android:id="@+id/orderSummaryView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </com.lcmm.sysbar.android.components.CustomView>
 
 </LinearLayout>

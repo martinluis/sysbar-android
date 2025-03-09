@@ -29,5 +29,7 @@
     <string name="table_personal">Personal</string>
 
     <!-- ORDER -->
-
+    <string name="order_summary_subtotal">Total:</string>
+    <string name="order_btn_confirm">Confirmar</string>
+    <string name="order_btn_cancel">Cancelar</string>
 </resources>
