@@ -28,7 +28,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/table_icon"
+                android:src="@drawable/icon_table"
                 app:tint="@color/primary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/order_icon"
+                android:src="@drawable/icon_order"
                 app:tint="@color/primary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/food_icon"
+                android:src="@drawable/icon_food"
                 app:tint="@color/primary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/drink_icon"
+                android:src="@drawable/icon_drink"
                 app:tint="@color/primary"/>
             <TextView
                 android:layout_width="match_parent"
