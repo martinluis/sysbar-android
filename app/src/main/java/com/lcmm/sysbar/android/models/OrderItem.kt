@@ -8,7 +8,7 @@ data class OrderItem(
      var productName: String,
      var productPrice: BigDecimal,
      var quantity: Int,
-     var comment: String
+     var comment: String = ""
 ){
      fun getTotal(): BigDecimal {
           return productPrice.multiply(quantity.toBigDecimal())

@@ -12,24 +12,27 @@ import com.lcmm.sysbar.android.R
 /**
  * TODO: document your custom view class.
  */
-class CustomView@JvmOverloads constructor(
+open class CustomView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayoutCompat(context, attrs, defStyleAttr) {
 
+    private var attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomView)
+    private var opacityValue = 100
+    private var isRoundValue = true
+    private var color = context.getColor(R.color.white)
+    private var borderColor = context.getColor(R.color.secondary)
+    private var borderSize = 1
 
     init {
         // Inflate the custom layout
         LayoutInflater.from(context).inflate(R.layout.custom_view, this, true)
-
-        // Optionally handle attributes
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomView)
-        val opacityValue = attributes.getInt(R.styleable.CustomView_opacity, 100)
-        val isRoundValue = attributes.getBoolean(R.styleable.CustomView_isRound, true)
-        val color = attributes.getColor(R.styleable.CustomView_color, context.getColor(R.color.white))
-        val borderColor = attributes.getColor(R.styleable.CustomView_borderColor, context.getColor(R.color.secondary))
-        val borderSize = attributes.getInt(R.styleable.CustomView_borderSize, 1)
+        opacityValue = attributes.getInt(R.styleable.CustomView_opacity, 100)
+        isRoundValue = attributes.getBoolean(R.styleable.CustomView_isRound, true)
+        color = attributes.getColor(R.styleable.CustomView_color, context.getColor(R.color.white))
+        borderColor = attributes.getColor(R.styleable.CustomView_borderColor, context.getColor(R.color.secondary))
+        borderSize = attributes.getInt(R.styleable.CustomView_borderSize, 1)
         attributes.recycle()
         background = ContextCompat.getDrawable(context, R.drawable.container_round)
         setupBackground(color, opacityValue)
@@ -41,7 +44,7 @@ class CustomView@JvmOverloads constructor(
      *
      */
     private fun setupBackground(color: Int, opacity: Int) {
-        val alpha = (255 / 100) * opacity
+        val alpha = (255 * opacity) / 100
         val finalColor = Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
         val backgroundDrawable = background as GradientDrawable
         backgroundDrawable.setColor(finalColor)

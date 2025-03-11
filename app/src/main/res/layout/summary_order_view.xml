@@ -13,9 +13,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/gray_5">
         <TextView
+            android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:text="Mesa 12"
+            android:text="@string/mock_text_medium"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="18sp"

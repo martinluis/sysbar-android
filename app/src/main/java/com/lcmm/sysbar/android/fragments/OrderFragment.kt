@@ -13,9 +13,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lcmm.sysbar.android.components.OrderSummaryActionsListener
 import com.lcmm.sysbar.android.databinding.FragmentOrderBinding
+import com.lcmm.sysbar.android.enums.OrderStatus
+import com.lcmm.sysbar.android.enums.OrderType
 import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.OrderViewModel
+import java.math.BigDecimal
 
 class OrderFragment : Fragment() {
 
@@ -25,6 +28,8 @@ class OrderFragment : Fragment() {
     private val orderViewModel: OrderViewModel by viewModels()
     private lateinit var localStorageService: LocalStorageService
     private lateinit var navController: NavController
+
+    private var order: Order? = null
 
     // This will retrieve the userId passed via Safe Args
     private val args: OrderFragmentArgs by navArgs()
@@ -53,6 +58,13 @@ class OrderFragment : Fragment() {
     /**
      *
      */
+    private fun initView(order: Order) {
+        binding.orderSummaryView.setOrder(order)
+    }
+
+    /**
+     *
+     */
     private fun initListeners() {
         val summaryOrderViewListener = object: OrderSummaryActionsListener {
             override fun onConfirmButtonClick() {
@@ -71,7 +83,12 @@ class OrderFragment : Fragment() {
      */
     private fun initObservers() {
         orderViewModel.orderLiveData.observe(requireActivity()) { order ->
-            initViewWithOrder(order)
+            initView(order)
+        }
+        orderViewModel.errorLiveData.observe(requireActivity()) { error ->
+            if (error.message.isEmpty()) {
+
+            }
         }
         orderViewModel.getByTable( args.tableId )
     }
@@ -79,8 +96,10 @@ class OrderFragment : Fragment() {
     /**
      *
      */
-    private fun initViewWithOrder(order: Order){
-
+    private fun createEmptyOrder(): Order{
+        val user = localStorageService.getActiveUser()
+        val order = Order(null, user!!, null,OrderType.LOCAL, OrderStatus.ACTIVE, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+        return order
     }
 
 }

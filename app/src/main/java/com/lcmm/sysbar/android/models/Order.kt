@@ -9,6 +9,7 @@ data class Order (
     var id: Long? = null,
     var user: User,
     //var customer: Customer,
+    var items: MutableList<OrderItem>?,
     var orderType: OrderType,
     var status: OrderStatus,
     var subtotal: BigDecimal,

@@ -20,16 +20,7 @@ class TableItem@JvmOverloads constructor(
     init {
         // Inflate the custom layout
         LayoutInflater.from(context).inflate(R.layout.table_item, this, true)
-
         titleText  = findViewById(R.id.tableNameText)
-
-        // Optionally handle attributes
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.TableItem)
-        val tableName = attributes.getString(R.styleable.TableItem_tableName)
-        val isActive = attributes.getBoolean(R.styleable.TableItem_isActive, false)
-        attributes.recycle()
-
-        setupTable(tableName, isActive)
     }
 
     /**

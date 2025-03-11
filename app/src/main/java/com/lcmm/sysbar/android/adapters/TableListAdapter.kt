@@ -31,8 +31,8 @@ class TableListAdapter (
                 val dpAsPixels = (marginSize * scale + 0.5f).toInt()
                 params.setMargins(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
                 layoutParams = params
-                setTable(table)
             }
+            tableItem.setTable(table)
             flexboxLayout.addView(tableItem)
         }
     }

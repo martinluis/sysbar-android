@@ -11,7 +11,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.lcmm.sysbar.android.R
+import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.utils.StringUtils
 import java.math.BigDecimal
@@ -23,42 +25,43 @@ class SummaryOrderView@JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    private var confirmButton: MaterialButton
+    private var cancelButton: MaterialButton
+    private var titleText: TextView
+
     private var summaryActionsListener: OrderSummaryActionsListener? = null
     private var orderItemAdapter: OrderItemAdapter? = null
+
+    private var order: Order? = null
+    private var orderItemsAdded: List<OrderItem> = mutableListOf()
 
     /**
      *
      */
     init {
         LayoutInflater.from(context).inflate(R.layout.summary_order_view, this, true)
+
+        confirmButton = findViewById(R.id.confirmButton)
+        cancelButton = findViewById(R.id.cancelButton)
+        titleText = findViewById(R.id.titleText)
+
         val args = context.obtainStyledAttributes(attrs, R.styleable.SummaryOrderView, defStyleAttr, 0)
         args.recycle()
-        initView()
+        initListeners()
     }
 
     /**
      *
      */
     @SuppressLint("NotifyDataSetChanged")
-    private fun initView(){
-        val confirmButton = findViewById<Button>(R.id.confirmButton)
-        val cancelButton = findViewById<Button>(R.id.cancelButton)
-        confirmButton.setOnClickListener {
-            // Notify the parent when the button is clicked
-            summaryActionsListener?.onConfirmButtonClick()
+    private fun initView(order: Order){
+        if (order.items == null) {
+            return
         }
 
-        cancelButton.setOnClickListener {
-            // Notify the parent when the button is clicked
-            summaryActionsListener?.onCancelButtonClick()
-        }
+        titleText.text = "Mesa 1"
 
-        // Fetch data from the service
-        val items = mutableListOf(
-            OrderItem(1, 1, "Hamburgesa con Papas", BigDecimal(60.50), 2, ""),
-            OrderItem(2, 2,"Torta de Jamon", BigDecimal(50.50), 5, "Sin cebella, chile o lechuga"),
-            OrderItem(null, 2,"Cerveza Victoria", BigDecimal(9.00), 1, "")
-        )
+        val items = order.items as MutableList<OrderItem>
 
         // Set up the OrderItem list
         val recyclerView = findViewById<RecyclerView>(R.id.orderItemsList)
@@ -77,6 +80,21 @@ class SummaryOrderView@JvmOverloads constructor(
     /**
      *
      */
+    private fun initListeners(){
+        confirmButton.setOnClickListener {
+            // Notify the parent when the button is clicked
+            summaryActionsListener?.onConfirmButtonClick()
+        }
+
+        cancelButton.setOnClickListener {
+            // Notify the parent when the button is clicked
+            summaryActionsListener?.onCancelButtonClick()
+        }
+    }
+
+    /**
+     *
+     */
     private fun getTotalFromItems(items: List<OrderItem>): String{
         var total = BigDecimal.ZERO
         items.forEach {
@@ -85,9 +103,19 @@ class SummaryOrderView@JvmOverloads constructor(
         return StringUtils.decimalToCurrencyFormat(total)
     }
 
-    // Method to set the callback listener
+    /**
+     * Method to set the callback listener
+     */
     fun setOrderSummaryActionsListener(listener: OrderSummaryActionsListener) {
         this.summaryActionsListener = listener
+    }
+
+    /**
+     * Setter method to pass the object after the view is initialized
+     */
+    fun setOrder(order: Order) {
+        this.order = order
+        initView(order)
     }
 
 }
