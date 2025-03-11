@@ -5,6 +5,11 @@
     <string name="error_generic">Ooops! Algo salio mal</string>
     <string name="error_user_code_invalid">Usuario no valido</string>
 
+    <!-- SYSTEM -->
+    <string name="system_accept">Aceptar</string>
+    <string name="system_cancel">Cancelar</string>
+    <string name="system_confirm">Confirmar</string>
+
 
     <!-- SIDE MENU -->
     <string name="menu_side_home">Inicio</string>
@@ -30,6 +35,14 @@
 
     <!-- ORDER -->
     <string name="order_summary_subtotal">Total:</string>
-    <string name="order_btn_confirm">Confirmar</string>
-    <string name="order_btn_cancel">Cancelar</string>
+    <string name="order_input_comment">Comentarios</string>
+
+
+    <!-- MOCK -->
+    <string name="mock_text_number">1</string>
+    <string name="mock_text_short">Short</string>
+    <string name="mock_text_medium">Medium Text</string>
+    <string name="mock_text_Long">Long text for internal testing</string>
+    <string name="mock_text_extra_long">Very Long long text for internal testing and validate other fields</string>
+
 </resources>

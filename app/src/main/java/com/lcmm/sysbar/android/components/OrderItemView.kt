@@ -26,8 +26,9 @@ class OrderItemView@JvmOverloads constructor(
     private val commentText: TextView
 
     private val addButton: ImageButton
-    private val substractButton: ImageButton
+    private val subtractButton: ImageButton
     private val deleteButton: ImageButton
+    private val editButton: ImageButton
 
     private lateinit var orderItem: OrderItem
 
@@ -42,8 +43,9 @@ class OrderItemView@JvmOverloads constructor(
         totalText = findViewById(R.id.totalText)
         commentText = findViewById(R.id.commentText)
         addButton = findViewById(R.id.addButton)
-        substractButton = findViewById(R.id.subtractButton)
+        subtractButton = findViewById(R.id.subtractButton)
         deleteButton = findViewById(R.id.deleteButton)
+        editButton = findViewById(R.id.editButton)
 
         val args = context.obtainStyledAttributes(attrs, R.styleable.OrderItemView, defStyleAttr, 0)
         args.recycle()
@@ -61,7 +63,7 @@ class OrderItemView@JvmOverloads constructor(
             quantityText.text = orderItem.quantity.toString()
         }
 
-        substractButton.setOnClickListener {
+        subtractButton.setOnClickListener {
             orderItem.quantity--
             if (orderItem.quantity < 0) {
                 orderItem.quantity = 0
@@ -69,6 +71,9 @@ class OrderItemView@JvmOverloads constructor(
             quantityText.text = orderItem.quantity.toString()
         }
 
+        editButton.setOnClickListener {
+            showEditPopup()
+        }
     }
 
     /**
@@ -100,6 +105,23 @@ class OrderItemView@JvmOverloads constructor(
      */
     fun setDeleteClickListener(listener: OnClickListener) {
         deleteButton.setOnClickListener(listener)
+    }
+
+    /**
+     *
+     */
+    @SuppressLint("InflateParams")
+    private fun showEditPopup() {
+        // Create an instance of your custom PopupWindow
+        val customPopup = EditOrderItemPopup(context, orderItem)
+
+        customPopup.setOnConfirmClickListener {
+            bindData(customPopup.getOrderItem())
+            customPopup.dismiss()
+        }
+
+        // Show the popup
+        customPopup.showPopup(editButton)
     }
 
 }
