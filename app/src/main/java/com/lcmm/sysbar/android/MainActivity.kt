@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
      *
      */
     private fun initNavigation() {
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         NavigationUI.setupWithNavController(this.binding.sideMenu, navHostFragment.navController, )
     }
@@ -59,6 +59,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initSideMenu() {
         this.binding.sideMenu.bringToFront()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        NavigationUI.setupWithNavController(this.binding.sideMenu, navHostFragment.navController)
+        this.binding.sideMenu.setNavigationItemSelectedListener { menuItem ->
+            navHostFragment.navController.navigate(menuItem.itemId)
+            this.binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
     /**

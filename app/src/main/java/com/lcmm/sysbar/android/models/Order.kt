@@ -8,6 +8,7 @@ import java.math.BigDecimal
 data class Order (
     var id: Long? = null,
     var user: User,
+    var table: Table,
     //var customer: Customer,
     var items: MutableList<OrderItem>?,
     var orderType: OrderType,

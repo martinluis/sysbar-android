@@ -16,8 +16,10 @@ import com.lcmm.sysbar.android.databinding.FragmentOrderBinding
 import com.lcmm.sysbar.android.enums.OrderStatus
 import com.lcmm.sysbar.android.enums.OrderType
 import com.lcmm.sysbar.android.models.Order
+import com.lcmm.sysbar.android.models.Table
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.OrderViewModel
+import com.lcmm.sysbar.android.viewModel.TableViewModel
 import java.math.BigDecimal
 
 class OrderFragment : Fragment() {
@@ -26,10 +28,11 @@ class OrderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val orderViewModel: OrderViewModel by viewModels()
+    private val tableViewModel: TableViewModel by viewModels()
     private lateinit var localStorageService: LocalStorageService
     private lateinit var navController: NavController
 
-    private var order: Order? = null
+    private var table: Table? = null
 
     // This will retrieve the userId passed via Safe Args
     private val args: OrderFragmentArgs by navArgs()
@@ -86,11 +89,18 @@ class OrderFragment : Fragment() {
             initView(order)
         }
         orderViewModel.errorLiveData.observe(requireActivity()) { error ->
-            if (error.message.isEmpty()) {
-
+            if (error.errorCodes != null && error.errorCodes!!.isNotEmpty()) {
+                if (error.errorCodes!!.contains("table.without.active.order")){
+                    val order = createEmptyOrder()
+                    initView(order)
+                }
             }
         }
-        orderViewModel.getByTable( args.tableId )
+        tableViewModel.tableLiveData.observe(requireActivity()) { table ->
+            this.table = table
+            orderViewModel.getByTable( table.id!! )
+        }
+        tableViewModel.getTable(args.tableId)
     }
 
     /**
@@ -98,7 +108,7 @@ class OrderFragment : Fragment() {
      */
     private fun createEmptyOrder(): Order{
         val user = localStorageService.getActiveUser()
-        val order = Order(null, user!!, null,OrderType.LOCAL, OrderStatus.ACTIVE, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+        val order = Order(null, user!!,this.table!!, mutableListOf() ,OrderType.LOCAL, OrderStatus.ACTIVE, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
         return order
     }
 
