@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,10 +17,12 @@ import com.lcmm.sysbar.android.databinding.FragmentOrderBinding
 import com.lcmm.sysbar.android.enums.OrderStatus
 import com.lcmm.sysbar.android.enums.OrderType
 import com.lcmm.sysbar.android.models.Order
+import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.models.Table
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.OrderViewModel
 import com.lcmm.sysbar.android.viewModel.TableViewModel
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class OrderFragment : Fragment() {
@@ -33,6 +36,7 @@ class OrderFragment : Fragment() {
     private lateinit var navController: NavController
 
     private var table: Table? = null
+    private var order: Order? = null
 
     // This will retrieve the userId passed via Safe Args
     private val args: OrderFragmentArgs by navArgs()
@@ -62,7 +66,12 @@ class OrderFragment : Fragment() {
      *
      */
     private fun initView(order: Order) {
+        this.order = order
         binding.orderSummaryView.setOrder(order)
+        val item1 = OrderItem(null,2, "Pizza Grande", BigDecimal(10.50), 1, "Sin sal")
+        binding.orderSummaryView.addItem(item1)
+        val item2 = OrderItem(null,2, "Pizza Grande", BigDecimal(10.50), 2)
+        binding.orderSummaryView.addItem(item2)
     }
 
     /**
@@ -71,11 +80,12 @@ class OrderFragment : Fragment() {
     private fun initListeners() {
         val summaryOrderViewListener = object: OrderSummaryActionsListener {
             override fun onConfirmButtonClick() {
-                Toast.makeText(requireContext(), "Button clicked in custom view", Toast.LENGTH_SHORT).show()
+                val orderItems = binding.orderSummaryView.getNewItems()
+                orderViewModel.addItemsToOrder(order?.id!!, orderItems)
             }
 
             override fun onCancelButtonClick() {
-                Toast.makeText(requireContext(), "Button cancel clicked in custom view", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Clean", Toast.LENGTH_SHORT).show()
             }
         }
         binding.orderSummaryView.setOrderSummaryActionsListener(summaryOrderViewListener)
@@ -88,6 +98,7 @@ class OrderFragment : Fragment() {
         orderViewModel.orderLiveData.observe(requireActivity()) { order ->
             initView(order)
         }
+
         orderViewModel.errorLiveData.observe(requireActivity()) { error ->
             if (error.errorCodes != null && error.errorCodes!!.isNotEmpty()) {
                 if (error.errorCodes!!.contains("table.without.active.order")){
@@ -96,10 +107,25 @@ class OrderFragment : Fragment() {
                 }
             }
         }
+
         tableViewModel.tableLiveData.observe(requireActivity()) { table ->
             this.table = table
             orderViewModel.getByTable( table.id!! )
         }
+
+        lifecycleScope.launch {
+            orderViewModel.orderState.collect { result ->
+                result?.onSuccess { order ->
+                    initView(order)
+                }
+                result?.onFailure { exception ->
+                    // Handle failure (e.g., show an error message)
+                    Toast.makeText(context, "Error creating order: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        // Call to services after init the observers
         tableViewModel.getTable(args.tableId)
     }
 

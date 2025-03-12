@@ -29,11 +29,13 @@ class TableItem@JvmOverloads constructor(
     private fun setupTable(tableName: String?, isActive: Boolean){
         titleText.text = tableName
         background = ContextCompat.getDrawable(context, R.drawable.container_round)
-        backgroundTintList = if (isActive) {
-            ContextCompat.getColorStateList(context, R.color.success)
+        if (isActive) {
+            backgroundTintList = ContextCompat.getColorStateList(context, R.color.success)
+            titleText.setTextColor(ContextCompat.getColor(context, R.color.white))
         } else {
-            ContextCompat.getColorStateList(context, R.color.disable)
+            backgroundTintList = ContextCompat.getColorStateList(context, R.color.disable)
         }
+
         requestLayout()
     }
 

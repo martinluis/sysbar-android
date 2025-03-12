@@ -1,107 +1,119 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/quantityText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
-            android:text="8"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/success"/>
-        <TextView
-            android:id="@+id/productText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@+id/totalText"
-            app:layout_constraintStart_toEndOf="@+id/quantityText"
-            android:layout_marginStart="10dp"
-            android:text="Hamburgesa Sencilla con Papas"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/totalText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
-            android:text="$345.50"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/commentText"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="100dp"
-        android:textSize="16sp"
-        android:textColor="@color/gray_3"
-        android:text="Sin cebolla y sin chile" />
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/actionsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
-        <ImageButton
-            android:id="@+id/subtractButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/quantityText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="10dp"
+                android:text="8"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/success"/>
+            <TextView
+                android:id="@+id/productText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toStartOf="@+id/totalText"
+                app:layout_constraintStart_toEndOf="@+id/quantityText"
+                android:layout_marginStart="10dp"
+                android:text="Hamburgesa Sencilla con Papas"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/totalText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:text="$345.50"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/commentText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:background="@drawable/icon_minus"
-            android:backgroundTint="@color/primary"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <ImageButton
-            android:id="@+id/addButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="30dp"
-            android:importantForAccessibility="no"
-            android:background="@drawable/icon_add"
-            android:backgroundTint="@color/primary"
-            app:layout_constraintStart_toEndOf="@+id/subtractButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginEnd="100dp"
+            android:textSize="16sp"
+            android:textColor="@color/gray_3"
+            android:text="Sin cebolla y sin chile" />
 
-        <ImageButton
-            android:id="@+id/editButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:importantForAccessibility="no"
-            android:background="@drawable/icon_edit"
-            android:backgroundTint="@color/primary"
-            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-            app:layout_constraintStart_toEndOf="@+id/addButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="20dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/actionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <ImageButton
+                android:id="@+id/subtractButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="30dp"
+                android:background="@drawable/icon_minus"
+                android:backgroundTint="@color/primary"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <ImageButton
+                android:id="@+id/addButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="30dp"
+                android:importantForAccessibility="no"
+                android:background="@drawable/icon_add"
+                android:backgroundTint="@color/primary"
+                app:layout_constraintStart_toEndOf="@+id/subtractButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:importantForAccessibility="no"
-            android:background="@drawable/icon_delete"
-            android:backgroundTint="@color/error"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="20dp" />
+            <ImageButton
+                android:id="@+id/editButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:background="@drawable/icon_edit"
+                android:backgroundTint="@color/primary"
+                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+                app:layout_constraintStart_toEndOf="@+id/addButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="20dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:background="@drawable/icon_delete"
+                android:backgroundTint="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/alert"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

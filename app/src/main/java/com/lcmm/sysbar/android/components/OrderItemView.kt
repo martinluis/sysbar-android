@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.utils.StringUtils
+import com.lcmm.sysbar.android.viewModel.SummaryOrderViewModel
 
 
 class OrderItemView@JvmOverloads constructor(
@@ -30,7 +34,12 @@ class OrderItemView@JvmOverloads constructor(
     private val deleteButton: ImageButton
     private val editButton: ImageButton
 
+    private val statusBar: View
+
     private lateinit var orderItem: OrderItem
+
+    private lateinit var viewModel: SummaryOrderViewModel
+
 
     /**
      *
@@ -46,11 +55,13 @@ class OrderItemView@JvmOverloads constructor(
         subtractButton = findViewById(R.id.subtractButton)
         deleteButton = findViewById(R.id.deleteButton)
         editButton = findViewById(R.id.editButton)
+        statusBar = findViewById(R.id.statusBar)
 
         val args = context.obtainStyledAttributes(attrs, R.styleable.OrderItemView, defStyleAttr, 0)
         args.recycle()
 
         initView()
+        initViewModel()
     }
 
     /**
@@ -61,6 +72,7 @@ class OrderItemView@JvmOverloads constructor(
         addButton.setOnClickListener {
             orderItem.quantity++
             quantityText.text = orderItem.quantity.toString()
+            viewModel.updateOrderSummary("")
         }
 
         subtractButton.setOnClickListener {
@@ -69,6 +81,7 @@ class OrderItemView@JvmOverloads constructor(
                 orderItem.quantity = 0
             }
             quantityText.text = orderItem.quantity.toString()
+            viewModel.updateOrderSummary("")
         }
 
         editButton.setOnClickListener {
@@ -88,16 +101,30 @@ class OrderItemView@JvmOverloads constructor(
         commentText.text = orderItem.comment
         commentText.visibility = if (orderItem.comment.isEmpty()) View.GONE else View.VISIBLE
         if (orderItem.itemId != null) {
-            enableReadOnly()
+            setupConfirmedItems()
         }
     }
 
     /**
      *
      */
-    private fun enableReadOnly() {
+    private fun setupConfirmedItems() {
         val actionsContainer = findViewById<ConstraintLayout>(R.id.actionsContainer)
         actionsContainer.visibility = View.GONE
+        quantityText.setTextColor(context.getColor(R.color.black))
+        statusBar.setBackgroundColor(context.getColor(R.color.success))
+    }
+
+    /**
+     *
+     */
+    private fun initViewModel() {
+        // Use the ViewModelProvider to get the ViewModel scoped to the parent (Activity/Fragment)
+        val activity = context as? AppCompatActivity
+        activity?.let {
+            // ViewModelProvider will give you a ViewModel that is tied to the Activity's lifecycle
+            viewModel = ViewModelProvider(it)[SummaryOrderViewModel::class.java]
+        }
     }
 
     /**
