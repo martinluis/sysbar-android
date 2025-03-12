@@ -25,6 +25,8 @@ open class CustomView @JvmOverloads constructor(
     private var borderColor = context.getColor(R.color.secondary)
     private var borderSize = 1
 
+    private val backgroundGradient: GradientDrawable
+
     init {
         // Inflate the custom layout
         LayoutInflater.from(context).inflate(R.layout.custom_view, this, true)
@@ -34,10 +36,11 @@ open class CustomView @JvmOverloads constructor(
         borderColor = attributes.getColor(R.styleable.CustomView_borderColor, context.getColor(R.color.secondary))
         borderSize = attributes.getInt(R.styleable.CustomView_borderSize, 1)
         attributes.recycle()
-        background = ContextCompat.getDrawable(context, R.drawable.container_round)
-        setupBackground(color, opacityValue)
+        backgroundGradient = cloneBackground(ContextCompat.getDrawable(context, R.drawable.container_round) as GradientDrawable)
         setupRoundCorners(isRoundValue)
+        setupBackground(color, opacityValue)
         setupBorder(borderColor, borderSize)
+        background = backgroundGradient
     }
 
     /**
@@ -46,8 +49,7 @@ open class CustomView @JvmOverloads constructor(
     private fun setupBackground(color: Int, opacity: Int) {
         val alpha = (255 * opacity) / 100
         val finalColor = Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-        val backgroundDrawable = background as GradientDrawable
-        backgroundDrawable.setColor(finalColor)
+        backgroundGradient.setColor(finalColor)
     }
 
     /**
@@ -56,8 +58,7 @@ open class CustomView @JvmOverloads constructor(
     private fun setupBorder(color: Int, borderSize: Int) {
         val scale = resources.displayMetrics.density
         val borderSizeAsPixels = (borderSize * scale + 0.5f).toInt()
-        val backgroundDrawable = background as GradientDrawable
-        backgroundDrawable.setStroke(borderSizeAsPixels, color)
+        backgroundGradient.setStroke(borderSizeAsPixels, color)
     }
 
     /**
@@ -66,9 +67,20 @@ open class CustomView @JvmOverloads constructor(
     private fun setupRoundCorners(isRound: Boolean) {
         // Only validate when FALSE because the round value comes from container_round
         if (!isRound) {
-            val backgroundDrawable = background as GradientDrawable
-            backgroundDrawable.cornerRadius = 0f
+            backgroundGradient.cornerRadius = 0f
         }
+    }
+
+    /**
+     * This is a workaround to avoid modify directly the container_round because the value persist after the change globally
+     */
+    private fun cloneBackground(backgroundOrigin: GradientDrawable): GradientDrawable {
+        // Create a new GradientDrawable with the same properties as the original drawable, but with a different corner radius
+        val newDrawable = GradientDrawable()
+        newDrawable.shape = backgroundOrigin.shape
+        newDrawable.color = backgroundOrigin.color
+        newDrawable.cornerRadius = backgroundOrigin.cornerRadius
+        return newDrawable
     }
 
 }
