@@ -7,15 +7,27 @@
     android:orientation="horizontal"
     tools:context=".fragments.OrderFragment">
 
-    <com.lcmm.sysbar.android.components.CustomView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="5dp"
-        android:layout_weight="1.5"
-        app:isRound="false"
-        app:borderColor="@color/gray_2">
-    </com.lcmm.sysbar.android.components.CustomView>
+        android:layout_weight="1.5">
+
+        <com.lcmm.sysbar.android.components.SearchProductView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1.5"/>
+        <com.lcmm.sysbar.android.components.CustomView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            app:borderColor="@color/gray_3"
+            app:isRound="false">
+
+        </com.lcmm.sysbar.android.components.CustomView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     <com.lcmm.sysbar.android.components.CustomView

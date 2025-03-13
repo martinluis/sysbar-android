@@ -68,10 +68,6 @@ class OrderFragment : Fragment() {
     private fun initView(order: Order) {
         this.order = order
         binding.orderSummaryView.setOrder(order)
-        val item1 = OrderItem(null,2, "Pizza Grande", BigDecimal(10.50), 1, "Sin sal")
-        binding.orderSummaryView.addItem(item1)
-        val item2 = OrderItem(null,2, "Pizza Grande", BigDecimal(10.50), 2)
-        binding.orderSummaryView.addItem(item2)
     }
 
     /**

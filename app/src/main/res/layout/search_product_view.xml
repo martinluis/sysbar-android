@@ -1,0 +1,35 @@
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+   <com.lcmm.sysbar.android.components.CustomView
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       app:isRound="false"
+       app:borderColor="@color/gray_3"
+       app:color="@color/gray_1">
+   </com.lcmm.sysbar.android.components.CustomView>
+
+    <com.lcmm.sysbar.android.components.CustomView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+        app:isRound="false"
+        app:borderColor="@color/gray_3">
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/productFlexbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:flexWrap="wrap">
+            <com.lcmm.sysbar.android.components.SearchProductItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </com.lcmm.sysbar.android.components.CustomView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
