@@ -16,7 +16,7 @@
         android:gravity="center"
         android:paddingHorizontal="3dp"
         android:paddingVertical="2dp"
-        android:text="@string/mock_text_short"
+        android:text="@string/mock_text_Long"
         android:textSize="16sp"
         android:textColor="@color/white"/>
 

@@ -13,6 +13,8 @@ class ProductViewModel : ViewModel() {
 
     private val productService = RetrofitClient.productService
 
+    val productLiveData = MutableLiveData<Product>()
+
     // LiveData to hold the list of users
     val productsLiveData = MutableLiveData<List<Product>>()
 
@@ -34,4 +36,10 @@ class ProductViewModel : ViewModel() {
         }
     }
 
+    /**
+     *
+     */
+    fun addProductToOrder(product: Product){
+        productLiveData.postValue(product)
+    }
 }

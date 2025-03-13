@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,7 @@ import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.models.Table
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.OrderViewModel
+import com.lcmm.sysbar.android.viewModel.ProductViewModel
 import com.lcmm.sysbar.android.viewModel.TableViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -32,6 +34,8 @@ class OrderFragment : Fragment() {
 
     private val orderViewModel: OrderViewModel by viewModels()
     private val tableViewModel: TableViewModel by viewModels()
+    private lateinit var productViewModel: ProductViewModel
+
     private lateinit var localStorageService: LocalStorageService
     private lateinit var navController: NavController
 
@@ -60,6 +64,7 @@ class OrderFragment : Fragment() {
     private fun initView() {
         navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
+        productViewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
     }
 
     /**
@@ -122,6 +127,13 @@ class OrderFragment : Fragment() {
                     Toast.makeText(context, "Error creating order: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        productViewModel.productLiveData.observe(requireActivity()) { product ->
+            val orderItem = OrderItem(
+                null, product.id, product.name, product.price, 1
+            )
+            binding.orderSummaryView.addItem(orderItem)
         }
 
         // Call to services after init the observers

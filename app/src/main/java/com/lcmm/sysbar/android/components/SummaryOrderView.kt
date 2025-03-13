@@ -29,10 +29,11 @@ class SummaryOrderView@JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var confirmButton: MaterialButton
-    private var cancelButton: MaterialButton
-    private var titleText: TextView
+    private val confirmButton: MaterialButton
+    private val cancelButton: MaterialButton
+    private val titleText: TextView
     private val totalText: TextView
+    private val recyclerView: RecyclerView
 
     private var summaryActionsListener: OrderSummaryActionsListener? = null
     private var orderItemAdapter: OrderItemAdapter? = null
@@ -51,6 +52,7 @@ class SummaryOrderView@JvmOverloads constructor(
         cancelButton = findViewById(R.id.cancelButton)
         titleText = findViewById(R.id.titleText)
         totalText = findViewById(R.id.summaryTotalText)
+        recyclerView =  findViewById(R.id.orderItemsList)
 
         val args = context.obtainStyledAttributes(attrs, R.styleable.SummaryOrderView, defStyleAttr, 0)
         args.recycle()
@@ -70,12 +72,9 @@ class SummaryOrderView@JvmOverloads constructor(
         val items = order.items as MutableList<OrderItem>
 
         // Set up the OrderItem list with Adapter
-        val recyclerView = findViewById<RecyclerView>(R.id.orderItemsList)
         recyclerView.layoutManager = LinearLayoutManager(context)
         orderItemAdapter = OrderItemAdapter(items) { position ->
             items.removeAt(position)
-            orderItemAdapter?.notifyItemRemoved(position)
-            orderItemAdapter?.notifyDataSetChanged()
             updateView()
         }
         recyclerView.adapter = orderItemAdapter
@@ -151,7 +150,6 @@ class SummaryOrderView@JvmOverloads constructor(
     fun removeNewItems(){
         val newItems = getNewItems() as MutableList
         orderItemAdapter?.getItems()?.removeAll(newItems)
-        orderItemAdapter?.notifyDataSetChanged()
         updateView()
     }
 
@@ -191,7 +189,12 @@ class SummaryOrderView@JvmOverloads constructor(
     /**
      *
      */
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateView() {
+        orderItemAdapter?.notifyDataSetChanged()
+        recyclerView.post {
+            recyclerView.scrollToPosition(orderItemAdapter?.getItems()?.size?.minus(1)!!)
+        }
         totalText.text = getTotalFromItems(getAllItems())
         val newItemsFiltered = getNewItems().filter { it.quantity > 0 }
         ViewUtils.toggleButton(context, confirmButton, newItemsFiltered.isNotEmpty(), R.color.success)

@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.Product
-import com.lcmm.sysbar.android.models.Table
 import com.lcmm.sysbar.android.utils.StringUtils
 
 class SearchProductItem @JvmOverloads constructor(
