@@ -13,8 +13,8 @@ class SummaryOrderViewModel : ViewModel() {
     /**
      *
      */
-    fun updateOrderSummary(newSummary: String) {
-        _orderSummary.value = newSummary
+    fun updateOrderSummary(message: String) {
+        _orderSummary.value = message
     }
 
 }

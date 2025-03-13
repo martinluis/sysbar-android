@@ -81,11 +81,14 @@ class OrderFragment : Fragment() {
         val summaryOrderViewListener = object: OrderSummaryActionsListener {
             override fun onConfirmButtonClick() {
                 val orderItems = binding.orderSummaryView.getNewItems()
-                orderViewModel.addItemsToOrder(order?.id!!, orderItems)
+                val orderItemsFiltered = orderItems.filter { it.quantity > 0 }
+                if (orderItemsFiltered.isNotEmpty()) {
+                    orderViewModel.addItemsToOrder(order?.id!!, orderItems)
+                }
             }
 
             override fun onCancelButtonClick() {
-                Toast.makeText(requireContext(), "Clean", Toast.LENGTH_SHORT).show()
+               binding.orderSummaryView.removeNewItems()
             }
         }
         binding.orderSummaryView.setOrderSummaryActionsListener(summaryOrderViewListener)

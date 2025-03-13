@@ -145,6 +145,7 @@ class OrderItemView@JvmOverloads constructor(
         customPopup.setOnConfirmClickListener {
             bindData(customPopup.getOrderItem())
             customPopup.dismiss()
+            viewModel.updateOrderSummary("")
         }
 
         // Show the popup

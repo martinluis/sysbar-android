@@ -18,6 +18,7 @@ import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.utils.StringUtils
+import com.lcmm.sysbar.android.utils.ViewUtils
 import com.lcmm.sysbar.android.viewModel.SummaryOrderViewModel
 import java.math.BigDecimal
 
@@ -75,13 +76,13 @@ class SummaryOrderView@JvmOverloads constructor(
             items.removeAt(position)
             orderItemAdapter?.notifyItemRemoved(position)
             orderItemAdapter?.notifyDataSetChanged()
-            updateTotal()
+            updateView()
         }
         recyclerView.adapter = orderItemAdapter
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
 
-        updateTotal()
+        updateView()
     }
 
     private fun initViewModel() {
@@ -91,7 +92,7 @@ class SummaryOrderView@JvmOverloads constructor(
             // ViewModelProvider will give you a ViewModel that is tied to the Activity's lifecycle
             viewModel = ViewModelProvider(it)[SummaryOrderViewModel::class.java]
             viewModel.orderSummary.observe(it, Observer {
-                updateTotal()
+                updateView()
             })
         }
     }
@@ -140,7 +141,18 @@ class SummaryOrderView@JvmOverloads constructor(
         else{
             orderItemAdapter?.addItem(item)
         }
-        updateTotal()
+        updateView()
+    }
+
+    /**
+     *
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeNewItems(){
+        val newItems = getNewItems() as MutableList
+        orderItemAdapter?.getItems()?.removeAll(newItems)
+        orderItemAdapter?.notifyDataSetChanged()
+        updateView()
     }
 
     /**
@@ -179,8 +191,11 @@ class SummaryOrderView@JvmOverloads constructor(
     /**
      *
      */
-    private fun updateTotal() {
+    private fun updateView() {
         totalText.text = getTotalFromItems(getAllItems())
+        val newItemsFiltered = getNewItems().filter { it.quantity > 0 }
+        ViewUtils.toggleButton(context, confirmButton, newItemsFiltered.isNotEmpty(), R.color.success)
+        ViewUtils.toggleButton(context, cancelButton, newItemsFiltered.isNotEmpty(), R.color.warning)
     }
 
 }
