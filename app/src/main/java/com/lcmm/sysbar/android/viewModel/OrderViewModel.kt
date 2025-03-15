@@ -42,14 +42,29 @@ class OrderViewModel : ViewModel() {
         }
     }
 
-    /**
-     *
-     */
     fun addItemsToOrder(orderId: Long, orderItems: List<OrderItem>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // Make the POST request
                 val response = orderService.addItems(orderId, orderItems)
+
+                // Emit the success result
+                _orderState.value = Result.success(response)
+            } catch (e: Exception) {
+                // Emit the failure result
+                _orderState.value = Result.failure(e)
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    fun createOrder(order: Order, orderItems: List<OrderItem>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // Make the POST request
+                val response = orderService.create(order)
 
                 // Emit the success result
                 _orderState.value = Result.success(response)

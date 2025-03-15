@@ -84,7 +84,12 @@ class OrderFragment : Fragment() {
                 val orderItems = binding.orderSummaryView.getNewItems()
                 val orderItemsFiltered = orderItems.filter { it.quantity > 0 }
                 if (orderItemsFiltered.isNotEmpty()) {
-                    orderViewModel.addItemsToOrder(order?.id!!, orderItems)
+                    if (order?.id == null) {
+                        orderViewModel.createOrder(order!!, orderItems)
+                    }
+                    else {
+                        orderViewModel.addItemsToOrder(order?.id!!, orderItems)
+                    }
                 }
             }
 

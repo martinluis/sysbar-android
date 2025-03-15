@@ -99,8 +99,11 @@ class OrderItemView@JvmOverloads constructor(
         totalText.text = StringUtils.decimalToCurrencyFormat( orderItem.getTotal() )
         commentText.text = orderItem.comment
         commentText.visibility = if (orderItem.comment.isEmpty()) View.GONE else View.VISIBLE
-        if (orderItem.itemId != null) {
+        if (orderItem.itemId != null && orderItem.itemId != 0L) {
             setupConfirmedItems()
+        }
+        else {
+            setupUnconfirmedItems()
         }
     }
 
@@ -112,6 +115,16 @@ class OrderItemView@JvmOverloads constructor(
         actionsContainer.visibility = View.GONE
         quantityText.setTextColor(context.getColor(R.color.black))
         statusBar.setBackgroundColor(context.getColor(R.color.success))
+    }
+
+    /**
+     *
+     */
+    private fun setupUnconfirmedItems() {
+        val actionsContainer = findViewById<ConstraintLayout>(R.id.actionsContainer)
+        actionsContainer.visibility = View.VISIBLE
+        quantityText.setTextColor(context.getColor(R.color.success))
+        statusBar.setBackgroundColor(context.getColor(R.color.alert))
     }
 
     /**

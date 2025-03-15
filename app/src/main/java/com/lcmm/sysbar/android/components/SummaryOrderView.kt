@@ -65,11 +65,10 @@ class SummaryOrderView@JvmOverloads constructor(
      */
     @SuppressLint("NotifyDataSetChanged")
     private fun initView(order: Order){
-        if (order.items == null) {
-            return
-        }
 
-        val items = order.items as MutableList<OrderItem>
+        titleText.text = order.table.name
+
+        val items = order.items?.toMutableList() ?: mutableListOf()
 
         // Set up the OrderItem list with Adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -130,9 +129,9 @@ class SummaryOrderView@JvmOverloads constructor(
      *
      */
     fun addItem(item: OrderItem){
-        val itemsList = getNewItems() as MutableList
-        val foundItem = itemsList.find { it.productId == item.productId }
-        if (foundItem!=null && foundItem.comment.isEmpty()) {
+        val itemsList = getNewItems().toMutableList()
+        val foundItem = itemsList.find { it.productId == item.productId && it.comment.isEmpty() }
+        if (foundItem!=null) {
             foundItem.quantity += item.quantity
             val index = itemsList.indexOfFirst { it == foundItem}
             itemsList[index] = foundItem
@@ -141,6 +140,17 @@ class SummaryOrderView@JvmOverloads constructor(
             orderItemAdapter?.addItem(item)
         }
         updateView()
+
+        // Move to index location of the item
+        getNewItems().forEachIndexed { index, it ->
+           if (it.productId == item.productId) {
+               recyclerView.post {
+                   recyclerView.scrollToPosition(index)
+               }
+               return
+           }
+        }
+
     }
 
     /**
@@ -192,9 +202,6 @@ class SummaryOrderView@JvmOverloads constructor(
     @SuppressLint("NotifyDataSetChanged")
     private fun updateView() {
         orderItemAdapter?.notifyDataSetChanged()
-        recyclerView.post {
-            recyclerView.scrollToPosition(orderItemAdapter?.getItems()?.size?.minus(1)!!)
-        }
         totalText.text = getTotalFromItems(getAllItems())
         val newItemsFiltered = getNewItems().filter { it.quantity > 0 }
         ViewUtils.toggleButton(context, confirmButton, newItemsFiltered.isNotEmpty(), R.color.success)
