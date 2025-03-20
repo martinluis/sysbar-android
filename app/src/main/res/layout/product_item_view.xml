@@ -6,7 +6,8 @@
     android:layout_height="100dp"
     android:padding="5dp"
     android:background="@drawable/container_round"
-    android:backgroundTint="@color/primary">
+    android:backgroundTint="@color/primary"
+    android:layout_margin="5dp">
 
     <TextView
         android:id="@+id/productText"

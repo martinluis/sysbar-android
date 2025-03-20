@@ -1,5 +1,6 @@
 package com.lcmm.sysbar.android.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,7 +10,8 @@ import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.Product
 import com.lcmm.sysbar.android.utils.StringUtils
 
-class SearchProductItem @JvmOverloads constructor(
+
+class ProductItemView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -19,21 +21,32 @@ class SearchProductItem @JvmOverloads constructor(
     private val priceText: TextView
 
 
+    /**
+     *
+     */
     init {
-        // Inflate the custom layout
-        LayoutInflater.from(context).inflate(R.layout.product_item, this, true)
-        productText  = findViewById(R.id.productText)
-        priceText  = findViewById(R.id.priceText)
-    }
+        LayoutInflater.from(context).inflate(R.layout.product_item_view, this, true)
 
+        productText = findViewById(R.id.productText)
+        priceText = findViewById(R.id.priceText)
+    }
 
 
     /**
      *
      */
-    fun setProduct(product: Product) {
+    @SuppressLint("SetTextI18n")
+    fun bindData(product: Product){
         productText.text = product.name
-        priceText.text = StringUtils.decimalToCurrencyFormat(product.price)
+        priceText.text = StringUtils.decimalToCurrencyFormat( product.price )
+    }
+
+
+    /**
+     *
+     */
+    fun setClickListener(listener: OnClickListener) {
+        this.setOnClickListener(listener)
     }
 
 }

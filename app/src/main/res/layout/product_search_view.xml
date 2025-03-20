@@ -1,0 +1,44 @@
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+   <com.lcmm.sysbar.android.components.CustomView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:isRound="false"
+       app:borderColor="@color/gray_3"
+       app:color="@color/gray_1">
+       <com.google.android.material.textfield.TextInputLayout
+           android:id="@+id/search_container"
+           android:layout_width="200dp"
+           android:layout_height="wrap_content"
+           app:endIconMode="clear_text"
+           app:endIconTint="@color/secondary">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/filterEditText"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:hint="@string/order_search_filter"
+               android:imeOptions="actionSearch"
+               android:inputType="textPersonName"/>
+       </com.google.android.material.textfield.TextInputLayout>
+   </com.lcmm.sysbar.android.components.CustomView>
+
+    <com.lcmm.sysbar.android.components.CustomView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+        app:isRound="false"
+        app:borderColor="@color/gray_3">
+        <!-- RecyclerView with FlexboxLayoutManager -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.lcmm.sysbar.android.components.CustomView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

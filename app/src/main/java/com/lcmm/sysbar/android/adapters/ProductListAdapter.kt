@@ -3,7 +3,7 @@ package com.lcmm.sysbar.android.adapters
 import android.content.Context
 import android.widget.RelativeLayout
 import com.google.android.flexbox.FlexboxLayout
-import com.lcmm.sysbar.android.components.SearchProductItem
+import com.lcmm.sysbar.android.components.ProductItemView
 import com.lcmm.sysbar.android.models.Product
 
 class ProductListAdapter (
@@ -18,7 +18,7 @@ class ProductListAdapter (
 
         // Dynamically create views for each item and add to FlexboxLayout
         tables.forEach { product ->
-            val productItem = SearchProductItem(context).apply {
+            val productItem = ProductItemView(context).apply {
                 setOnClickListener {
                     onItemClickListener(product)  // Trigger the click listener with the clicked item
                 }
@@ -32,7 +32,7 @@ class ProductListAdapter (
                 params.setMargins(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
                 layoutParams = params
             }
-            productItem.setProduct(product)
+            productItem.bindData(product)
             flexboxLayout.addView(productItem)
         }
     }
