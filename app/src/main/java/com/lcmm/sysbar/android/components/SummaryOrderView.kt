@@ -252,8 +252,8 @@ class OrderItemAdapter(private var items: MutableList<OrderItem>, private val on
         return items.size
     }
 
-    /*8
-
+    /**
+     *
      */
     fun addItem(item: OrderItem) {
         items.add(item)

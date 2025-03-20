@@ -2,32 +2,20 @@ package com.lcmm.sysbar.android.components
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.Drawable
-import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.lcmm.sysbar.android.R
-import com.lcmm.sysbar.android.adapters.ProductListAdapter
 import com.lcmm.sysbar.android.models.Product
-import com.lcmm.sysbar.android.utils.StringUtils
 import com.lcmm.sysbar.android.viewModel.ProductViewModel
 
 /**
@@ -66,6 +54,7 @@ class SearchProductView @JvmOverloads constructor(
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP  // Allow wrapping
         recyclerView.layoutManager = flexboxLayoutManager
+
     }
 
     /**
@@ -107,20 +96,14 @@ class SearchProductView @JvmOverloads constructor(
         }
     }
 
-
-    /**
-     *
-     */
-    private fun handleSelectProduct(product: Product){
-        productViewModel.addProductToOrder(product)
-    }
-
     /**
      *
      */
     private fun handleProductsResponse(products: List<Product>) {
         // Initialize the productItemAdapter and set it to the RecyclerView
-        productItemAdapter = ProductItemAdapter(products)
+        productItemAdapter = ProductItemAdapter(products) { product ->
+            productViewModel.addProductToOrder(product)
+        }
         recyclerView.adapter = productItemAdapter
     }
 
@@ -128,35 +111,62 @@ class SearchProductView @JvmOverloads constructor(
 
 
 // ItemAdapter.kt
-class ProductItemAdapter(private val originalItems: List<Product>) : RecyclerView.Adapter<ProductItemAdapter.ViewHolder>() {
+class ProductItemAdapter(private var items: List<Product>, private val onClickListener: (Product) -> Unit) : RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder>() {
 
-    private var filteredItems: List<Product> = originalItems
+    private var filteredItems: List<Product> = items
 
-    // ViewHolder to hold each item
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productText: TextView = itemView.findViewById(R.id.productText)
-        val priceText: TextView = itemView.findViewById(R.id.priceText)
+    // ViewHolder that holds the reference to the custom view
+    class ProductItemViewHolder(val productItemView: ProductItemView) : RecyclerView.ViewHolder(productItemView)
+
+    /**
+     *
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemViewHolder {
+        // Inflate the custom view and return the ViewHolder
+        val itemView = ProductItemView(parent.context)
+
+        // Set FlexboxLayoutParams instead of the default LayoutParams
+        val layoutParams = FlexboxLayoutManager.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        // Set margins
+        val scale = 2
+        val marginSize = 5.0f
+        val dpAsPixels = (marginSize * scale + 0.5f).toInt()
+        layoutParams.setMargins(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
+
+        itemView.layoutParams = layoutParams
+
+        return ProductItemViewHolder(itemView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item_view, parent, false)
-        return ViewHolder(view)
+    /**
+     *
+     */
+    override fun onBindViewHolder(holder: ProductItemViewHolder, position: Int) {
+        val item = filteredItems[position]
+        holder.productItemView.bindData(item)
+        holder.productItemView.setClickListener {
+            onClickListener(item)
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.productText.text = filteredItems[position].name
-        holder.priceText.text = StringUtils.decimalToCurrencyFormat( filteredItems[position].price )
+    /**
+     *
+     */
+    override fun getItemCount(): Int {
+        return filteredItems.size
     }
-
-    override fun getItemCount(): Int = filteredItems.size
 
     // Filter method to update the displayed items
     @SuppressLint("NotifyDataSetChanged")
     fun filter(query: String) {
         filteredItems = if (query.isEmpty()) {
-            originalItems
+            items
         } else {
-            originalItems.filter { it.name.contains(query, ignoreCase = true) }
+            items.filter { it.name.contains(query, ignoreCase = true) }
         }
         notifyDataSetChanged()
     }
