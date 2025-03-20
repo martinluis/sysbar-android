@@ -152,7 +152,7 @@ class OrderItemView@JvmOverloads constructor(
     @SuppressLint("InflateParams")
     private fun showEditPopup() {
         // Create an instance of your custom PopupWindow
-        val customPopup = EditOrderItemPopup(context, orderItem)
+        val customPopup = OrderItemEditPopup(context, orderItem)
 
         customPopup.setOnConfirmClickListener {
             bindData(customPopup.getOrderItem())

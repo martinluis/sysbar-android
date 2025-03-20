@@ -15,7 +15,7 @@ import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.OrderItem
 
 @SuppressLint("InflateParams")
-class EditOrderItemPopup(context: Context, private val orderItem: OrderItem) : PopupWindow(context) {
+class OrderItemEditPopup(context: Context, private val orderItem: OrderItem) : PopupWindow(context) {
 
     private val quantityText: TextView
     private val productText: TextView
