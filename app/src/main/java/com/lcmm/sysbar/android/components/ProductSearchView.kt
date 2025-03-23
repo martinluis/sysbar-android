@@ -2,11 +2,14 @@ package com.lcmm.sysbar.android.components
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.addTextChangedListener
@@ -15,8 +18,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.lcmm.sysbar.android.R
+import com.lcmm.sysbar.android.enums.ProductType
 import com.lcmm.sysbar.android.models.Product
 import com.lcmm.sysbar.android.viewModel.ProductViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * TODO: document your custom view class.
@@ -30,6 +39,7 @@ class SearchProductView @JvmOverloads constructor(
     private lateinit var recyclerView: RecyclerView
     private lateinit var filterEditText: EditText
     private lateinit var productItemAdapter: ProductItemAdapter
+    private lateinit var filterRadioGroup: RadioGroup
    
 
 
@@ -50,11 +60,11 @@ class SearchProductView @JvmOverloads constructor(
     private fun initView() {
         recyclerView = findViewById(R.id.recyclerView)
         filterEditText = findViewById(R.id.filterEditText)
+        filterRadioGroup = findViewById(R.id.filterRadioGroup)
 
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP  // Allow wrapping
         recyclerView.layoutManager = flexboxLayoutManager
-
     }
 
     /**
@@ -64,18 +74,22 @@ class SearchProductView @JvmOverloads constructor(
         // Set up text change listener for filtering items
         filterEditText.addTextChangedListener { editable ->
             val query = editable.toString()
-            productItemAdapter.filter(query)
+            productItemAdapter.filter(query, filterRadioGroup.checkedRadioButtonId)
         }
 
         // Optionally, you can filter only when the "Enter" key is pressed
         filterEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = filterEditText.text.toString()
-                productItemAdapter.filter(query)
+                productItemAdapter.filter(query,  filterRadioGroup.checkedRadioButtonId)
                 true
             } else {
                 false
             }
+        }
+
+        filterRadioGroup.setOnCheckedChangeListener { _, _ ->
+            productItemAdapter.filter("",  filterRadioGroup.checkedRadioButtonId)
         }
     }
 
@@ -114,6 +128,9 @@ class SearchProductView @JvmOverloads constructor(
 class ProductItemAdapter(private var items: List<Product>, private val onClickListener: (Product) -> Unit) : RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder>() {
 
     private var filteredItems: List<Product> = items
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var kepPressJob: Job? = null
+
 
     // ViewHolder that holds the reference to the custom view
     class ProductItemViewHolder(val productItemView: ProductItemView) : RecyclerView.ViewHolder(productItemView)
@@ -162,12 +179,27 @@ class ProductItemAdapter(private var items: List<Product>, private val onClickLi
 
     // Filter method to update the displayed items
     @SuppressLint("NotifyDataSetChanged")
-    fun filter(query: String) {
-        filteredItems = if (query.isEmpty()) {
-            items
-        } else {
-            items.filter { it.name.contains(query, ignoreCase = true) }
+    fun filter(query: String, option: Int) {
+        val currentFilteredItems = filteredItems
+        filteredItems = items
+        when (option) {
+            R.id.drinkRadioButton -> { filteredItems = items.filter { it.type == ProductType.DRINK } }
+            R.id.foodRadioButton -> { filteredItems = items.filter { it.type == ProductType.FOOD } }
         }
-        notifyDataSetChanged()
+
+        if (query.isNotEmpty() && query.length > 1) {
+            kepPressJob?.cancel()
+            kepPressJob = coroutineScope.launch {
+                delay(1000)
+                filteredItems = filteredItems.filter { it.name.contains(query, ignoreCase = true) }
+                if (filteredItems != currentFilteredItems) {
+                    notifyDataSetChanged()
+                }
+            }
+        }else {
+            if (filteredItems != currentFilteredItems) {
+                notifyDataSetChanged()
+            }
+        }
     }
 }

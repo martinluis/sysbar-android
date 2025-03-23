@@ -37,6 +37,11 @@
     <string name="order_summary_subtotal">Total:</string>
     <string name="order_input_comment">Comentarios</string>
     <string name="order_search_filter">Filtrar</string>
+    <string name="order_search_radio_all">Todo</string>
+    <string name="order_search_radio_drink">Bebidas</string>
+    <string name="order_search_radio_food">Comida</string>
+
+
 
     <!-- MOCK -->
     <string name="mock_text_number">1</string>

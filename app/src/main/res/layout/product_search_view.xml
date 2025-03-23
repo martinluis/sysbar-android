@@ -7,6 +7,7 @@
    <com.lcmm.sysbar.android.components.CustomView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
+       android:padding="5dp"
        app:isRound="false"
        app:borderColor="@color/gray_3"
        app:color="@color/gray_1">
@@ -20,11 +21,40 @@
            <com.google.android.material.textfield.TextInputEditText
                android:id="@+id/filterEditText"
                android:layout_width="match_parent"
-               android:layout_height="match_parent"
+               android:layout_height="wrap_content"
                android:hint="@string/order_search_filter"
+               android:textSize="16sp"
+               android:padding="10dp"
                android:imeOptions="actionSearch"
-               android:inputType="textPersonName"/>
+               android:inputType="textPersonName" />
        </com.google.android.material.textfield.TextInputLayout>
+
+       <RadioGroup
+           android:id="@+id/filterRadioGroup"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:orientation="horizontal"
+           android:gravity="center"
+           android:layout_weight="1">
+           <RadioButton
+               android:id="@+id/allRadioButton"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:layout_marginEnd="10dp"
+               android:checked="true"
+               android:text="@string/order_search_radio_all"/>
+           <RadioButton
+               android:id="@+id/foodRadioButton"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:layout_marginEnd="10dp"
+               android:text="@string/order_search_radio_food"/>
+           <RadioButton
+               android:id="@+id/drinkRadioButton"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:text="@string/order_search_radio_drink"/>
+       </RadioGroup>
    </com.lcmm.sysbar.android.components.CustomView>
 
     <com.lcmm.sysbar.android.components.CustomView
