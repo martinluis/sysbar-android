@@ -5,17 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.lcmm.sysbar.android.adapters.TableListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.lcmm.sysbar.android.components.TableItemView
 import com.lcmm.sysbar.android.databinding.FragmentTablesBinding
 import com.lcmm.sysbar.android.models.Table
 import com.lcmm.sysbar.android.navigateForward
 import com.lcmm.sysbar.android.services.LocalStorageService
 import com.lcmm.sysbar.android.viewModel.TableViewModel
-
 
 class TablesFragment : Fragment() {
     private var _binding: FragmentTablesBinding? = null
@@ -24,6 +27,8 @@ class TablesFragment : Fragment() {
     private val tableViewModel: TableViewModel by viewModels()
     private lateinit var localStorageService: LocalStorageService
     private lateinit var navController: NavController
+
+    private lateinit var tableItemAdapter: TableItemAdapter
 
     /**
      *
@@ -43,6 +48,10 @@ class TablesFragment : Fragment() {
     private fun initView() {
         navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
+
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP  // Allow wrapping
+        binding.recyclerView.layoutManager = flexboxLayoutManager
     }
 
     /**
@@ -77,10 +86,62 @@ class TablesFragment : Fragment() {
      *
      */
     private fun handleTablesResponse(tables: List<Table>) {
-        // Create an instance of TableListAdapter and define the click behavior
-        val flexboxHelper = TableListAdapter( requireContext(), binding.tablesFlexbox) { item ->
-            handleSelectTable(item)
+        tableItemAdapter = TableItemAdapter(tables) { table ->
+            handleSelectTable(table)
         }
-        flexboxHelper.setItems( tables )
+        binding.recyclerView.adapter = tableItemAdapter
     }
+}
+
+
+// ItemAdapter.kt
+class TableItemAdapter(private var  tables: List<Table>, private val onItemClickListener: (Table) -> Unit ) : RecyclerView.Adapter<TableItemAdapter.TabletItemViewHolder>() {
+
+
+    // ViewHolder that holds the reference to the custom view
+    class TabletItemViewHolder(val tableItemView: TableItemView) :
+        RecyclerView.ViewHolder(tableItemView)
+
+    /**
+     *
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabletItemViewHolder {
+        // Inflate the custom view and return the ViewHolder
+        val itemView = TableItemView(parent.context)
+
+        // Set FlexboxLayoutParams instead of the default LayoutParams
+        val layoutParams = FlexboxLayoutManager.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        // Set margins
+        val scale = 2
+        val marginSize = 10.0f
+        val dpAsPixels = (marginSize * scale + 0.5f).toInt()
+        layoutParams.setMargins(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
+
+        itemView.layoutParams = layoutParams
+
+        return TabletItemViewHolder(itemView)
+    }
+
+    /**
+     *
+     */
+    override fun onBindViewHolder(holder: TabletItemViewHolder, position: Int) {
+        val item = tables[position]
+        holder.tableItemView.bindData(item)
+        holder.tableItemView.setOnClickListener {
+            onItemClickListener(item)
+        }
+    }
+
+    /**
+     *
+     */
+    override fun getItemCount(): Int {
+        return tables.size
+    }
+    
 }

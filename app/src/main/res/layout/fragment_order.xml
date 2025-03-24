@@ -19,13 +19,31 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1.5"/>
+
         <com.lcmm.sysbar.android.components.CustomView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             app:borderColor="@color/gray_3"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:color="@color/gray_1"
             app:isRound="false">
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/payButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="@string/order_button_change" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/moveButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/primary"
+                android:text="@string/order_button_pay" />
         </com.lcmm.sysbar.android.components.CustomView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

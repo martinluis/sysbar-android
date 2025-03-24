@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.Table
 
-class TableItem@JvmOverloads constructor(
+class TableItemView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -42,7 +42,7 @@ class TableItem@JvmOverloads constructor(
     /**
      *
      */
-    fun setTable(table: Table) {
+    fun bindData(table: Table) {
         setupTable(table.name, table.isBusy == true)
     }
 

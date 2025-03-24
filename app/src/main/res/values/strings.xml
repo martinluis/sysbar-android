@@ -34,13 +34,14 @@
     <string name="table_personal">Personal</string>
 
     <!-- ORDER -->
+    <string name="order_button_pay">Pagar</string>
+    <string name="order_button_change">Cambiar Mesa</string>
     <string name="order_summary_subtotal">Total:</string>
     <string name="order_input_comment">Comentarios</string>
     <string name="order_search_filter">Filtrar</string>
     <string name="order_search_radio_all">Todo</string>
     <string name="order_search_radio_drink">Bebidas</string>
     <string name="order_search_radio_food">Comida</string>
-
 
 
     <!-- MOCK -->

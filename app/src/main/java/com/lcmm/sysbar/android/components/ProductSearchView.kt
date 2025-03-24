@@ -2,8 +2,6 @@ package com.lcmm.sysbar.android.components
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -190,7 +188,7 @@ class ProductItemAdapter(private var items: List<Product>, private val onClickLi
         if (query.isNotEmpty() && query.length > 1) {
             kepPressJob?.cancel()
             kepPressJob = coroutineScope.launch {
-                delay(1000)
+                delay(500)
                 filteredItems = filteredItems.filter { it.name.contains(query, ignoreCase = true) }
                 if (filteredItems != currentFilteredItems) {
                     notifyDataSetChanged()
