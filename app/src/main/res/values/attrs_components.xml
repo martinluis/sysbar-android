@@ -6,4 +6,12 @@
         <attr name="borderColor" format="color" />
         <attr name="borderSize" format="integer" />
     </declare-styleable>
+    <declare-styleable name="OrderSummaryView">
+        <attr name="isReadOnly" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="OrderItemView">
+    </declare-styleable>
+    <declare-styleable name="SearchProductView">
+
+    </declare-styleable>
 </resources>

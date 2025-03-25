@@ -34,7 +34,7 @@
     <string name="table_personal">Personal</string>
 
     <!-- ORDER -->
-    <string name="order_button_pay">Pagar</string>
+    <string name="order_button_print_ticket">Imprimir Ticket</string>
     <string name="order_button_change">Cambiar Mesa</string>
     <string name="order_summary_subtotal">Total:</string>
     <string name="order_input_comment">Comentarios</string>

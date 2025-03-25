@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
-class SummaryOrderViewModel : ViewModel() {
+class OrderSummaryViewModel : ViewModel() {
 
     private val _orderSummary = MutableLiveData<String>()
     val orderSummary: LiveData<String> get() = _orderSummary

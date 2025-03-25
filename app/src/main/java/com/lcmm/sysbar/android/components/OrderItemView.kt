@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.utils.StringUtils
-import com.lcmm.sysbar.android.viewModel.SummaryOrderViewModel
+import com.lcmm.sysbar.android.viewModel.OrderSummaryViewModel
 
 
 class OrderItemView@JvmOverloads constructor(
@@ -37,7 +37,7 @@ class OrderItemView@JvmOverloads constructor(
 
     private lateinit var orderItem: OrderItem
 
-    private lateinit var viewModel: SummaryOrderViewModel
+    private lateinit var viewModel: OrderSummaryViewModel
 
 
     /**
@@ -135,7 +135,7 @@ class OrderItemView@JvmOverloads constructor(
         val activity = context as? AppCompatActivity
         activity?.let {
             // ViewModelProvider will give you a ViewModel that is tied to the Activity's lifecycle
-            viewModel = ViewModelProvider(it)[SummaryOrderViewModel::class.java]
+            viewModel = ViewModelProvider(it)[OrderSummaryViewModel::class.java]
         }
     }
 

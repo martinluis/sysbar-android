@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,11 +20,11 @@ import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.models.OrderItem
 import com.lcmm.sysbar.android.utils.StringUtils
 import com.lcmm.sysbar.android.utils.ViewUtils
-import com.lcmm.sysbar.android.viewModel.SummaryOrderViewModel
+import com.lcmm.sysbar.android.viewModel.OrderSummaryViewModel
 import java.math.BigDecimal
 
 
-class SummaryOrderView@JvmOverloads constructor(
+class OrderSummaryView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -34,27 +35,35 @@ class SummaryOrderView@JvmOverloads constructor(
     private val titleText: TextView
     private val totalText: TextView
     private val recyclerView: RecyclerView
+    private val orderFooter: LinearLayoutCompat
+    private val orderSummary: LinearLayoutCompat
 
     private var summaryActionsListener: OrderSummaryActionsListener? = null
     private var orderItemAdapter: OrderItemAdapter? = null
-
-    private lateinit var viewModel: SummaryOrderViewModel
-
+    private lateinit var viewModel: OrderSummaryViewModel
     private var order: Order? = null
+
+    private val attributes = context.obtainStyledAttributes(attrs, R.styleable.OrderSummaryView, defStyleAttr, 0)
+    private var isReadOnly = false
+
 
     /**
      *
      */
     init {
-        LayoutInflater.from(context).inflate(R.layout.summary_order_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.order_summary_view, this, true)
 
         confirmButton = findViewById(R.id.confirmButton)
         cancelButton = findViewById(R.id.cancelButton)
         titleText = findViewById(R.id.titleText)
         totalText = findViewById(R.id.summaryTotalText)
         recyclerView =  findViewById(R.id.orderItemsList)
+        orderFooter =  findViewById(R.id.orderFooter)
+        orderSummary =  findViewById(R.id.orderSummary)
 
-        val args = context.obtainStyledAttributes(attrs, R.styleable.SummaryOrderView, defStyleAttr, 0)
+        val args = context.obtainStyledAttributes(attrs, R.styleable.OrderSummaryView, defStyleAttr, 0)
+        isReadOnly = attributes.getBoolean(R.styleable.CustomView_isRound, false)
+
         args.recycle()
         initListeners()
         initViewModel()
@@ -65,6 +74,10 @@ class SummaryOrderView@JvmOverloads constructor(
      */
     @SuppressLint("NotifyDataSetChanged")
     private fun initView(order: Order){
+
+        if (isReadOnly) {
+            orderFooter.visibility = GONE
+        }
 
         titleText.text = order.table.name
 
@@ -88,7 +101,7 @@ class SummaryOrderView@JvmOverloads constructor(
         val activity = context as? AppCompatActivity
         activity?.let {
             // ViewModelProvider will give you a ViewModel that is tied to the Activity's lifecycle
-            viewModel = ViewModelProvider(it)[SummaryOrderViewModel::class.java]
+            viewModel = ViewModelProvider(it)[OrderSummaryViewModel::class.java]
             viewModel.orderSummary.observe(it, Observer {
                 updateView()
             })

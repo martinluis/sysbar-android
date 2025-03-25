@@ -43,7 +43,7 @@
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/primary"
-                android:text="@string/order_button_pay" />
+                android:text="@string/order_button_print_ticket" />
         </com.lcmm.sysbar.android.components.CustomView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -56,7 +56,7 @@
         android:layout_weight="1"
         app:isRound="false"
         app:borderColor="@color/gray_2">
-        <com.lcmm.sysbar.android.components.SummaryOrderView
+        <com.lcmm.sysbar.android.components.OrderSummaryView
             android:id="@+id/orderSummaryView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

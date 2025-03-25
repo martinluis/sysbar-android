@@ -79,7 +79,7 @@ class OrderFragment : Fragment() {
      *
      */
     private fun initListeners() {
-        val summaryOrderViewListener = object: OrderSummaryActionsListener {
+        val orderSummaryViewListener = object: OrderSummaryActionsListener {
             override fun onConfirmButtonClick() {
                 val orderItems = binding.orderSummaryView.getNewItems()
                 val orderItemsFiltered = orderItems.filter { it.quantity > 0 }
@@ -97,7 +97,7 @@ class OrderFragment : Fragment() {
                binding.orderSummaryView.removeNewItems()
             }
         }
-        binding.orderSummaryView.setOrderSummaryActionsListener(summaryOrderViewListener)
+        binding.orderSummaryView.setOrderSummaryActionsListener(orderSummaryViewListener)
     }
 
     /**
