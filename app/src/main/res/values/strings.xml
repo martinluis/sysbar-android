@@ -42,6 +42,15 @@
     <string name="order_search_radio_all">Todo</string>
     <string name="order_search_radio_drink">Bebidas</string>
     <string name="order_search_radio_food">Comida</string>
+    <string name="order_type_delivery">Para llevar</string>
+    <string name="order_type_personal">Personal</string>
+
+    <!-- PROCESS ORDER -->
+    <string name="process_order_details">Detalles de Orden</string>
+    <string name="process_order_details_waiter">Mesero:</string>
+    <string name="process_order_details_customer_name">Cliente:</string>
+    <string name="process_order_details_customer_phone">Telefono:</string>
+    <string name="process_order_details_button_finish">Terminar</string>
 
 
     <!-- MOCK -->
@@ -49,7 +58,7 @@
     <string name="mock_text_price">$100.00</string>
     <string name="mock_text_short">Short</string>
     <string name="mock_text_medium">Medium Text</string>
-    <string name="mock_text_Long">Long text for internal testing</string>
+    <string name="mock_text_long">Long text for internal testing</string>
     <string name="mock_text_extra_long">Very Long long text for internal testing and validate other fields</string>
 
 </resources>

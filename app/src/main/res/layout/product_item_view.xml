@@ -15,7 +15,7 @@
         android:layout_height="60dp"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        android:text="@string/mock_text_Long"
+        android:text="@string/mock_text_long"
         android:textSize="16sp"
         android:textColor="@color/white"/>
 

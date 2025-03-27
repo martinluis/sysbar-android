@@ -48,4 +48,8 @@ object RetrofitClient {
     val productService: ProductService by lazy {
         retrofit.create(ProductService::class.java)
     }
+
+    val preparationQueueService: PreparationQueueService by lazy {
+        retrofit.create(PreparationQueueService::class.java)
+    }
 }

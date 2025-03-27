@@ -24,7 +24,7 @@ class OrderItemView@JvmOverloads constructor(
 ) : LinearLayoutCompat(context, attrs, defStyleAttr) {
 
     private val quantityText: TextView
-    private val nameText: TextView
+    private val productText: TextView
     private val totalText: TextView
     private val commentText: TextView
 
@@ -47,7 +47,7 @@ class OrderItemView@JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.order_item_view, this, true)
 
         quantityText = findViewById(R.id.quantityText)
-        nameText = findViewById(R.id.productText)
+        productText = findViewById(R.id.productText)
         totalText = findViewById(R.id.totalText)
         commentText = findViewById(R.id.commentText)
         addButton = findViewById(R.id.addButton)
@@ -95,7 +95,7 @@ class OrderItemView@JvmOverloads constructor(
     fun bindData(orderItem: OrderItem){
         this.orderItem = orderItem
         quantityText.text = orderItem.quantity.toString()
-        nameText.text = orderItem.productName
+        productText.text = orderItem.productName
         totalText.text = StringUtils.decimalToCurrencyFormat( orderItem.getTotal() )
         commentText.text = orderItem.comment
         commentText.visibility = if (orderItem.comment.isEmpty()) View.GONE else View.VISIBLE

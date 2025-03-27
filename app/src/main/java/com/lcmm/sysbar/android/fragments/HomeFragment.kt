@@ -53,6 +53,9 @@ class HomeFragment : Fragment() {
         binding.tablesItem.setOnClickListener {
             navController.navigateForward(R.id.action_homeFragment_to_tablesFragment, null)
         }
+        binding.kitchenItem.setOnClickListener {
+            navController.navigateForward(R.id.action_homeFragment_to_orderProcessFragment, null)
+        }
     }
 
 }

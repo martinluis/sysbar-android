@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_tablesFragment"
             app:destination="@id/tablesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_orderProcessFragment"
+            app:destination="@id/orderProcessFragment" />
     </fragment>
     <fragment
         android:id="@+id/tablesFragment"
@@ -41,6 +44,11 @@
             android:name="tableId"
             app:argType="long"/>
     </fragment>
+    <fragment
+        android:id="@+id/orderProcessFragment"
+        android:name="com.lcmm.sysbar.android.fragments.OrderProcessFragment"
+        android:label="fragment_process_order"
+        tools:layout="@layout/fragment_process_order" />
 
 
 </navigation>

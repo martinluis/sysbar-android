@@ -1,0 +1,26 @@
+<com.lcmm.sysbar.android.components.CustomView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:isRound="false"
+    app:borderColor="@color/gray_2">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mock_text_medium"
+        android:textSize="20sp"
+        android:textColor="@color/gray_5"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/subTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mock_text_medium"
+        android:textSize="18sp"
+        android:textColor="@color/gray_4"/>
+
+</com.lcmm.sysbar.android.components.CustomView>
