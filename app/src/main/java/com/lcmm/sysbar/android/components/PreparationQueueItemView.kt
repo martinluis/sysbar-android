@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import com.google.android.material.button.MaterialButton
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.PreparationQueue
 
@@ -19,6 +20,7 @@ class PreparationQueueItemView@JvmOverloads constructor(
     private val quantityText: TextView
     private val productText: TextView
     private val commentText: TextView
+    private val finishButton: MaterialButton
 
     private lateinit var preparationQueue: PreparationQueue
 
@@ -31,6 +33,7 @@ class PreparationQueueItemView@JvmOverloads constructor(
         quantityText = findViewById(R.id.quantityText)
         productText = findViewById(R.id.productText)
         commentText = findViewById(R.id.commentText)
+        finishButton = findViewById(R.id.finishButton)
         initView()
     }
 
@@ -52,5 +55,12 @@ class PreparationQueueItemView@JvmOverloads constructor(
         productText.text = preparationQueue.productName
         commentText.visibility = if (preparationQueue.comment.isNullOrEmpty()) View.GONE else View.VISIBLE
         commentText.text = preparationQueue.comment
+    }
+
+    /**
+     *
+     */
+    fun setFinishClickListener(listener: OnClickListener) {
+        finishButton.setOnClickListener(listener)
     }
 }

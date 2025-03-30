@@ -1,12 +1,17 @@
 package com.lcmm.sysbar.android.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lcmm.sysbar.android.models.ErrorResponse
+import com.lcmm.sysbar.android.models.Order
 import com.lcmm.sysbar.android.models.PreparationQueue
 import com.lcmm.sysbar.android.services.RetrofitClient
 import com.lcmm.sysbar.android.utils.ErrorHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PreparationQueueViewModel : ViewModel() {
@@ -20,6 +25,9 @@ class PreparationQueueViewModel : ViewModel() {
     // LiveData to hold errors or loading state
     val errorLiveData = MutableLiveData<ErrorResponse>()
 
+    private val _preparationQueueFinishStatus = MutableLiveData(false)
+    val preparationQueueFinishStatus: LiveData<Boolean> get() = _preparationQueueFinishStatus
+
     /**
      *  Fetch users from the API
      */
@@ -30,6 +38,23 @@ class PreparationQueueViewModel : ViewModel() {
                 preparationQueueListLiveData.postValue(preparationQueueList.toMutableList())
             }
             catch (e: Exception) {
+                ErrorHandler.handleError(errorLiveData, e)
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    fun finishPreparationQueue(preparationQueue: PreparationQueue) {
+        viewModelScope.launch {
+            try {
+                preparationQueueService.finish(preparationQueue.id!!)
+
+                // Emit the success result
+                _preparationQueueFinishStatus.postValue(true)
+            } catch (e: Exception) {
+                // Emit the failure result
                 ErrorHandler.handleError(errorLiveData, e)
             }
         }

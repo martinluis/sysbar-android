@@ -42,6 +42,9 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+    /**
+     *
+     */
     fun addItemsToOrder(orderId: Long, orderItems: List<OrderItem>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -60,7 +63,7 @@ class OrderViewModel : ViewModel() {
     /**
      *
      */
-    fun createOrder(order: Order, orderItems: List<OrderItem>) {
+    fun createOrder(order: Order) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // Make the POST request

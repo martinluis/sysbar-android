@@ -1,6 +1,7 @@
 package com.lcmm.sysbar.android.models
 
 import com.lcmm.sysbar.android.enums.OrderType
+import java.util.Date
 
 
 data class PreparationQueue(
@@ -12,5 +13,6 @@ data class PreparationQueue(
      val quantity: Int?,
      val comment: String?,
      val orderType: OrderType?,
+     val createdAt: Date,
      val customer: Customer?
 )

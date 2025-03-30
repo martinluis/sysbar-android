@@ -1,5 +1,6 @@
 package com.lcmm.sysbar.android.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,8 +29,10 @@ class OrderProcessFragment : Fragment() {
     private val preparationQueueViewModel: PreparationQueueViewModel by viewModels()
     private lateinit var localStorageService: LocalStorageService
     private lateinit var navController: NavController
-    private var preparationQueueSummaryAdapter: PreparationQueueSummaryAdapter? = null
-    private val preparationQueueSummaryList: MutableList<PreparationQueueSummary> = mutableListOf()
+    private lateinit var preparationQueueAdapter: PreparationQueueAdapter
+    private lateinit var preparationQueueSummaryAdapter: PreparationQueueSummaryAdapter
+
+    private var selectedIndex = 0
 
     /**
      *
@@ -38,7 +41,6 @@ class OrderProcessFragment : Fragment() {
         _binding = FragmentProcessOrderBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         initView()
-        initListeners()
         initObservers()
         return this.binding.root
     }
@@ -49,7 +51,6 @@ class OrderProcessFragment : Fragment() {
     private fun initView() {
         navController = findNavController()
         localStorageService = LocalStorageService(requireContext())
-
     }
 
 
@@ -57,57 +58,64 @@ class OrderProcessFragment : Fragment() {
      * Group PreparationQueue to generate a PreparationQueueSummary base on the order ID
      */
     private fun initView(preparationQueueList: MutableList<PreparationQueue>) {
-        val groupedByOrderMap = preparationQueueList.groupBy { it.orderId }
+        val preparationQueueSummaryList: MutableList<PreparationQueueSummary> = mutableListOf()
+        val sortedList = preparationQueueList.sortedBy { it.createdAt }
+        val groupedByOrderMap = sortedList .groupBy { it.orderId }
 
         for ((orderId, items) in groupedByOrderMap) {
             val item = items[0]
-           val destination = when (item.orderType) {
+            val destination = when (item.orderType) {
                 OrderType.LOCAL -> {
                     item.tableName
                 }
-
                 OrderType.DELIVERY -> {
                     requireContext().resources.getString(R.string.order_type_delivery)
                 }
-
                 OrderType.PERSONAL -> {
                     requireContext().resources.getString(R.string.order_type_delivery)
                 }
-
                null -> {""}
-           }
-            val preparationQueueSummary = PreparationQueueSummary(orderId!!, destination, item.userName!!, item.orderType!!, items)
+            }
+            val preparationQueueSummary = PreparationQueueSummary(orderId!!, destination, item.userName!!, item.orderType!!, item.createdAt, items)
             preparationQueueSummaryList.add(preparationQueueSummary)
         }
 
         preparationQueueSummaryAdapter = PreparationQueueSummaryAdapter(preparationQueueSummaryList) { itemView, index ->
+            selectedIndex = index
             val preparationQueueSummary = preparationQueueSummaryList[index]
             initPreparationQueueDetailsView(preparationQueueSummary)
             itemView.selectItem()
         }
         binding.preparationQueueSummaryList.layoutManager = LinearLayoutManager(context)
         binding.preparationQueueSummaryList.adapter = preparationQueueSummaryAdapter
+
+        updatePreparationQueueListView(preparationQueueSummaryList[selectedIndex])
     }
 
     /**
      *
      */
-    private fun initListeners() {
-
-    }
-
-    /**
-     *
-     */
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObservers() {
+
+        // List of active preparation order items
         preparationQueueViewModel.preparationQueueListLiveData.observe(requireActivity()) { preparationQueueList ->
             initView(preparationQueueList)
         }
+
+        // Observer when click the Finish button for preparation order item
+        preparationQueueViewModel.preparationQueueFinishStatus.observe(requireActivity()) { success ->
+            if (success) {
+                preparationQueueViewModel.fetchActives()
+                preparationQueueAdapter.notifyDataSetChanged()
+            }
+        }
+
         preparationQueueViewModel.fetchActives()
     }
 
     /**
-     *
+     * Init the container with the preparation items from Order (Table, User, List of Order Items)
      */
     private fun initPreparationQueueDetailsView(preparationQueueSummary: PreparationQueueSummary){
         binding.destinationText.text = preparationQueueSummary.destination
@@ -131,11 +139,11 @@ class OrderProcessFragment : Fragment() {
     }
 
     /**
-     *
+     *  Update the list with the preparation items from Order
      */
     private fun updatePreparationQueueListView(preparationQueueSummary: PreparationQueueSummary){
-        val preparationQueueAdapter = PreparationQueueAdapter(preparationQueueSummary.preparationQueueList.toMutableList()) { item ->
-
+        preparationQueueAdapter = PreparationQueueAdapter(preparationQueueSummary.preparationQueueList.toMutableList()) { item ->
+            preparationQueueViewModel.finishPreparationQueue(item)
         }
         binding.preparationQueueList.layoutManager = LinearLayoutManager(context)
         binding.preparationQueueList.adapter = preparationQueueAdapter
@@ -147,15 +155,17 @@ class OrderProcessFragment : Fragment() {
 /**
  * Adapter for list of PreparationQueueSummary
  */
-class PreparationQueueSummaryAdapter(private var items: MutableList<PreparationQueueSummary>, private val onItemClickListener: (itemView: PreparationQueueSummaryItemView, index: Int) -> Unit) : RecyclerView.Adapter<PreparationQueueSummaryAdapter.PreparationQueueViewHolder>() {
+class PreparationQueueSummaryAdapter( private var items: MutableList<PreparationQueueSummary>,
+                                      private val onItemClickListener: (itemView: PreparationQueueSummaryItemView, index: Int) -> Unit)
+    : RecyclerView.Adapter<PreparationQueueSummaryAdapter.PreparationQueueSummaryViewHolder>() {
 
     // ViewHolder that holds the reference to the custom view
-    class PreparationQueueViewHolder(val preparationQueueSummaryItemView: PreparationQueueSummaryItemView) : RecyclerView.ViewHolder(preparationQueueSummaryItemView)
+    class PreparationQueueSummaryViewHolder(val preparationQueueSummaryItemView: PreparationQueueSummaryItemView) : RecyclerView.ViewHolder(preparationQueueSummaryItemView)
 
     /**
      *
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreparationQueueViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreparationQueueSummaryViewHolder {
         // Inflate the custom view and return the ViewHolder
         val itemView = PreparationQueueSummaryItemView(parent.context)
 
@@ -164,13 +174,13 @@ class PreparationQueueSummaryAdapter(private var items: MutableList<PreparationQ
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        return PreparationQueueViewHolder(itemView)
+        return PreparationQueueSummaryViewHolder(itemView)
     }
 
     /**
      *
      */
-    override fun onBindViewHolder(holder: PreparationQueueViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PreparationQueueSummaryViewHolder, position: Int) {
         val item = items[position]
         holder.preparationQueueSummaryItemView.bindData(item)
         // Set the delete button listener
@@ -193,7 +203,7 @@ class PreparationQueueSummaryAdapter(private var items: MutableList<PreparationQ
 class PreparationQueueAdapter(private var items: MutableList<PreparationQueue>, private val onFinishClickListener: (item: PreparationQueue) -> Unit) : RecyclerView.Adapter<PreparationQueueAdapter.PreparationQueueViewHolder>() {
 
     // ViewHolder that holds the reference to the custom view
-    class PreparationQueueViewHolder(val PreparationQueueItemView: PreparationQueueItemView) : RecyclerView.ViewHolder(PreparationQueueItemView)
+    class PreparationQueueViewHolder(val preparationQueueItemView: PreparationQueueItemView) : RecyclerView.ViewHolder(preparationQueueItemView)
 
     /**
      *
@@ -215,9 +225,9 @@ class PreparationQueueAdapter(private var items: MutableList<PreparationQueue>, 
      */
     override fun onBindViewHolder(holder: PreparationQueueViewHolder, position: Int) {
         val item = items[position]
-        holder.PreparationQueueItemView.bindData(item)
+        holder.preparationQueueItemView.bindData(item)
         // Set the delete button listener
-        holder.PreparationQueueItemView.setOnClickListener {
+        holder.preparationQueueItemView.setFinishClickListener {
             onFinishClickListener(item)
         }
     }
