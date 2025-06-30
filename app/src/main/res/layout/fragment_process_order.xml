@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_2"
-            android:paddingHorizontal="10dp"
+            android:background="@color/gray_4"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="5dp">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
@@ -61,6 +61,7 @@
                     android:textSize="20sp"
                     android:layout_weight="1"
                     android:text="@string/mock_text_short"
+                    android:textColor="@color/white"
                     android:textStyle="bold"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -71,6 +72,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="@string/process_order_details_waiter"/>
                 <TextView
                     android:id="@+id/waiterText"
@@ -78,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="@string/mock_text_short"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -89,8 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_2"
-            android:paddingHorizontal="10dp"
+            android:background="@color/gray_4"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="5dp">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
@@ -100,6 +103,7 @@
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="@string/process_order_details_customer_name"/>
                 <TextView
                     android:id="@+id/customerNameText"
@@ -107,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="@string/mock_text_short"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -114,9 +119,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <TextView
-                    android:layout_width="75dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="@string/process_order_details_customer_phone"/>
                 <TextView
                     android:id="@+id/customerPhoneText"
@@ -124,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="@string/mock_text_short"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

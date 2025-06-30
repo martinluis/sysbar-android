@@ -53,8 +53,16 @@ class PreparationQueueSummaryItemView@JvmOverloads constructor(
     /**
      *
      */
-    fun selectItem() {
+    fun markAsSelected() {
         titleText.setTextColor(ContextCompat.getColor(context, R.color.success))
+    }
+
+
+    /**
+     *
+     */
+    fun markAsDeselected() {
+        titleText.setTextColor(ContextCompat.getColor(context, R.color.black))
     }
 
 }

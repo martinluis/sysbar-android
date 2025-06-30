@@ -17,6 +17,7 @@ import com.lcmm.sysbar.android.components.PreparationQueueItemView
 import com.lcmm.sysbar.android.components.PreparationQueueSummaryItemView
 import com.lcmm.sysbar.android.databinding.FragmentProcessOrderBinding
 import com.lcmm.sysbar.android.enums.OrderType
+import com.lcmm.sysbar.android.fragments.PreparationQueueSummaryAdapter.PreparationQueueSummaryViewHolder
 import com.lcmm.sysbar.android.models.PreparationQueue
 import com.lcmm.sysbar.android.models.PreparationQueueSummary
 import com.lcmm.sysbar.android.services.LocalStorageService
@@ -55,7 +56,7 @@ class OrderProcessFragment : Fragment() {
 
 
     /**
-     * Group PreparationQueue to generate a PreparationQueueSummary base on the order ID
+     * Group PreparationQueue items to generate a PreparationQueueSummary base on the order ID
      */
     private fun initView(preparationQueueList: MutableList<PreparationQueue>) {
         val preparationQueueSummaryList: MutableList<PreparationQueueSummary> = mutableListOf()
@@ -80,16 +81,18 @@ class OrderProcessFragment : Fragment() {
             preparationQueueSummaryList.add(preparationQueueSummary)
         }
 
-        preparationQueueSummaryAdapter = PreparationQueueSummaryAdapter(preparationQueueSummaryList) { itemView, index ->
+        // Adapter for the list of PreparationQueue by Order
+        preparationQueueSummaryAdapter = PreparationQueueSummaryAdapter(preparationQueueSummaryList, selectedIndex) { itemView, index ->
             selectedIndex = index
             val preparationQueueSummary = preparationQueueSummaryList[index]
             initPreparationQueueDetailsView(preparationQueueSummary)
-            itemView.selectItem()
+            //itemView.markAsSelected()
         }
+
         binding.preparationQueueSummaryList.layoutManager = LinearLayoutManager(context)
         binding.preparationQueueSummaryList.adapter = preparationQueueSummaryAdapter
 
-        updatePreparationQueueListView(preparationQueueSummaryList[selectedIndex])
+        initPreparationQueueDetailsView( preparationQueueSummaryList[selectedIndex] )
     }
 
     /**
@@ -97,7 +100,6 @@ class OrderProcessFragment : Fragment() {
      */
     @SuppressLint("NotifyDataSetChanged")
     private fun initObservers() {
-
         // List of active preparation order items
         preparationQueueViewModel.preparationQueueListLiveData.observe(requireActivity()) { preparationQueueList ->
             initView(preparationQueueList)
@@ -135,20 +137,14 @@ class OrderProcessFragment : Fragment() {
         else {
             binding.customerInfoContainer.visibility =  View.GONE
         }
-        updatePreparationQueueListView(preparationQueueSummary)
-    }
 
-    /**
-     *  Update the list with the preparation items from Order
-     */
-    private fun updatePreparationQueueListView(preparationQueueSummary: PreparationQueueSummary){
-        preparationQueueAdapter = PreparationQueueAdapter(preparationQueueSummary.preparationQueueList.toMutableList()) { item ->
+        // Adapter for the items list for the order selected
+        preparationQueueAdapter = PreparationQueueAdapter( preparationQueueSummary.preparationQueueList.toMutableList() ) { item ->
             preparationQueueViewModel.finishPreparationQueue(item)
         }
         binding.preparationQueueList.layoutManager = LinearLayoutManager(context)
         binding.preparationQueueList.adapter = preparationQueueAdapter
     }
-
 }
 
 
@@ -156,8 +152,9 @@ class OrderProcessFragment : Fragment() {
  * Adapter for list of PreparationQueueSummary
  */
 class PreparationQueueSummaryAdapter( private var items: MutableList<PreparationQueueSummary>,
+                                      private val selectedIndex: Int,
                                       private val onItemClickListener: (itemView: PreparationQueueSummaryItemView, index: Int) -> Unit)
-    : RecyclerView.Adapter<PreparationQueueSummaryAdapter.PreparationQueueSummaryViewHolder>() {
+    : RecyclerView.Adapter<PreparationQueueSummaryViewHolder>() {
 
     // ViewHolder that holds the reference to the custom view
     class PreparationQueueSummaryViewHolder(val preparationQueueSummaryItemView: PreparationQueueSummaryItemView) : RecyclerView.ViewHolder(preparationQueueSummaryItemView)
@@ -183,6 +180,11 @@ class PreparationQueueSummaryAdapter( private var items: MutableList<Preparation
     override fun onBindViewHolder(holder: PreparationQueueSummaryViewHolder, position: Int) {
         val item = items[position]
         holder.preparationQueueSummaryItemView.bindData(item)
+
+        if (position == selectedIndex) {
+            holder.preparationQueueSummaryItemView.markAsSelected()
+        }
+
         // Set the delete button listener
         holder.preparationQueueSummaryItemView.setOnClickListener {
             onItemClickListener(holder.preparationQueueSummaryItemView, position)
