@@ -86,7 +86,7 @@ class OrderProcessFragment : Fragment() {
             selectedIndex = index
             val preparationQueueSummary = preparationQueueSummaryList[index]
             initPreparationQueueDetailsView(preparationQueueSummary)
-            //itemView.markAsSelected()
+            itemView.markAsSelected()
         }
 
         binding.preparationQueueSummaryList.layoutManager = LinearLayoutManager(context)
@@ -152,7 +152,7 @@ class OrderProcessFragment : Fragment() {
  * Adapter for list of PreparationQueueSummary
  */
 class PreparationQueueSummaryAdapter( private var items: MutableList<PreparationQueueSummary>,
-                                      private val selectedIndex: Int,
+                                      private var selectedIndex: Int = 0,
                                       private val onItemClickListener: (itemView: PreparationQueueSummaryItemView, index: Int) -> Unit)
     : RecyclerView.Adapter<PreparationQueueSummaryViewHolder>() {
 
@@ -181,8 +181,20 @@ class PreparationQueueSummaryAdapter( private var items: MutableList<Preparation
         val item = items[position]
         holder.preparationQueueSummaryItemView.bindData(item)
 
-        // Set the delete button listener
+        // Update selection state
+        if (position == selectedIndex) {
+            holder.preparationQueueSummaryItemView.markAsSelected()
+        } else {
+            holder.preparationQueueSummaryItemView.markAsDeselected()
+        }
+
         holder.preparationQueueSummaryItemView.setOnClickListener {
+            val previousIndex = selectedIndex
+            selectedIndex = position
+
+            // Refresh old and new positions
+            if (previousIndex >= 0) notifyItemChanged(previousIndex)
+            notifyItemChanged(selectedIndex)
             onItemClickListener(holder.preparationQueueSummaryItemView, position)
         }
     }
