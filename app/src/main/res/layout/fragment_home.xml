@@ -41,29 +41,6 @@
                 android:textAlignment="center"/>
         </com.lcmm.sysbar.android.components.CustomView>
         <com.lcmm.sysbar.android.components.CustomView
-            android:id="@+id/ordersItem"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="5dp">
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/icon_order"
-                app:tint="@color/primary"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/home_orders"
-                android:textColor="@color/primary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
-        </com.lcmm.sysbar.android.components.CustomView>
-        <com.lcmm.sysbar.android.components.CustomView
             android:id="@+id/kitchenItem"
             android:layout_width="150dp"
             android:layout_height="150dp"

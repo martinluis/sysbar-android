@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.lcmm.sysbar.android.R
 import com.lcmm.sysbar.android.models.PreparationQueueSummary
+import java.time.format.DateTimeFormatter
 
 
 class PreparationQueueSummaryItemView@JvmOverloads constructor(
@@ -47,7 +48,8 @@ class PreparationQueueSummaryItemView@JvmOverloads constructor(
     fun bindData(preparationQueueSummary: PreparationQueueSummary){
         this.preparationQueueSummary = preparationQueueSummary
         titleText.text = preparationQueueSummary.destination
-        subTitleText.text = preparationQueueSummary.userName
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+        subTitleText.text = preparationQueueSummary.createdAt.format(formatter)
     }
 
     /**
