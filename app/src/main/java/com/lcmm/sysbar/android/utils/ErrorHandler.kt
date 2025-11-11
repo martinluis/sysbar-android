@@ -15,24 +15,35 @@ class ErrorHandler { companion object {
      *
      */
     fun handleError(errorLiveData: MutableLiveData<ErrorResponse>, ex: Exception) {
-        if ( ex is HttpException) {
-            var errorResponse: ErrorResponse?
-            try {
-                val jsonResponse= JSONObject(ex.response()?.errorBody()!!.string())
-                errorResponse = Gson().fromJson(jsonResponse.toString(), ErrorResponse::class.java)
-                if (errorResponse.message.isEmpty()) errorResponse.message = "HTTP ERROR: " + ex.code()
+        if (ex is HttpException) {
+            val errorResponse: ErrorResponse = try {
+                val errorBody = ex.response()?.errorBody()?.string()
+                val jsonResponse = if (!errorBody.isNullOrEmpty()) JSONObject(errorBody) else null
 
+                val parsedError = if (jsonResponse != null) {
+                    Gson().fromJson(jsonResponse.toString(), ErrorResponse::class.java)
+                } else {
+                    ErrorResponse(ex.code(), "HTTP ERROR: ${ex.code()}")
+                }
+
+                // Ensure message is not empty or null
+                if (parsedError.message.isNullOrEmpty()) {
+                    parsedError.message = "HTTP ERROR: ${ex.code()}"
+                }
+
+                parsedError
+            } catch (jsonEx: JSONException) {
+                ErrorResponse(ex.code(), ex.message() ?: "HTTP ERROR: ${ex.code()}")
             }
-            catch (jsonEx: JSONException){
-                errorResponse = ErrorResponse(ex.code(), ex.message() )
-            }
+
             errorLiveData.postValue(errorResponse)
-        }
-        else {
-            val errorResponse = ErrorResponse(500, ex.message!!)
+        } else {
+            val message = ex.message ?: "An unexpected error occurred"
+            val errorResponse = ErrorResponse(500, message)
             errorLiveData.postValue(errorResponse)
         }
     }
+
 
     /**
      *

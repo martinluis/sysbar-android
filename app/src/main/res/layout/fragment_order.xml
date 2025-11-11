@@ -31,18 +31,16 @@
             app:isRound="false">
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/payButton"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="150dp"
+                style="@style/OutlinedButtonPrimary"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/primary"
                 android:text="@string/order_button_change" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/moveButton"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="150dp"
+                style="@style/OutlinedButtonPrimary"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:backgroundTint="@color/primary"
                 android:text="@string/order_button_print_ticket" />
         </com.lcmm.sysbar.android.components.CustomView>
     </androidx.appcompat.widget.LinearLayoutCompat>

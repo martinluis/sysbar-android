@@ -181,10 +181,6 @@ class PreparationQueueSummaryAdapter( private var items: MutableList<Preparation
         val item = items[position]
         holder.preparationQueueSummaryItemView.bindData(item)
 
-        if (position == selectedIndex) {
-            holder.preparationQueueSummaryItemView.markAsSelected()
-        }
-
         // Set the delete button listener
         holder.preparationQueueSummaryItemView.setOnClickListener {
             onItemClickListener(holder.preparationQueueSummaryItemView, position)

@@ -10,12 +10,12 @@ import retrofit2.http.Query
 
 interface OrderService {
 
-    @POST("order/")
+    @POST("order")
     suspend fun create( @Body order: Order): Order
 
     @GET("order/findByTable")
     suspend fun findByTable(@Query("tableId") tableId: Long): Order
 
-    @POST("order/{id}/addItems")
+    @POST("order/{id}/items")
     suspend fun addItems(@Path("id") orderId: Long, @Body orderItems: List<OrderItem>): Order
 }

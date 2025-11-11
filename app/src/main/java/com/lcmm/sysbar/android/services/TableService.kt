@@ -5,9 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface TableService {
-    @GET("table/") // Adjust the endpoint as needed
+    @GET("table")
     suspend fun getAll(): List<Table>
 
-    @GET("table/{id}") // Adjust the endpoint as needed
+    @GET("table/{id}")
     suspend fun get(@Path("id") id:Long): Table
 }

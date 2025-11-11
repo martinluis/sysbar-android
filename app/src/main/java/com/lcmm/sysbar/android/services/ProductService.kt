@@ -4,6 +4,6 @@ import com.lcmm.sysbar.android.models.Product
 import retrofit2.http.GET
 
 interface ProductService {
-    @GET("product/")
+    @GET("product")
     suspend fun getAll(): List<Product>
 }

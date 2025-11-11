@@ -16,20 +16,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            android:importantForAccessibility="no"
-            android:src="@drawable/logo"/>
-
         <com.lcmm.sysbar.android.components.CustomView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="40dp"
-            android:paddingVertical="40dp"
+            android:paddingVertical="20dp"
             android:orientation="vertical"
             android:elevation="10dp">
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/logo"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/codeInput"
                     android:layout_width="match_parent"
@@ -46,11 +45,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/accessButton"
-                    style="@style/Widget.Material3.Button"
+                    style="@style/OutlinedButtonPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/primary"
                     android:text="@string/access_access" />
                 <TextView
                     android:id="@+id/accessMsgText"
