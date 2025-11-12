@@ -42,7 +42,7 @@
     <string name="order_search_radio_all">Todo</string>
     <string name="order_search_radio_drink">Bebidas</string>
     <string name="order_search_radio_food">Comida</string>
-    <string name="order_type_delivery">Para llevar</string>
+    <string name="order_type_delivery">A Domicilio</string>
     <string name="order_type_personal">Personal</string>
 
     <!-- PROCESS ORDER -->

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:isRound="false"
-        app:color="@color/gray_1"
+        android:layout_margin="5dp"
         android:layout_weight="1">
         <TextView
             android:layout_width="match_parent"
@@ -29,25 +29,18 @@
             android:layout_height="wrap_content"/>
     </com.lcmm.sysbar.android.components.CustomView>
     <com.lcmm.sysbar.android.components.CustomView
+        android:id="@+id/preparationQueueDetailsContainer"
         android:layout_width="0px"
         android:layout_height="match_parent"
         app:isRound="false"
         android:layout_weight="3"
+        android:layout_margin="5dp"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/gray_5"
-            android:text="@string/process_order_details"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_4"
+            android:background="@color/gray_5"
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp">
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -92,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_4"
+            android:background="@color/gray_5"
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp">
             <androidx.appcompat.widget.LinearLayoutCompat

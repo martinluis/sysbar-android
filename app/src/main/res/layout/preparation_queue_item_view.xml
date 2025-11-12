@@ -3,7 +3,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="10dp"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp"
     app:isRound="false"
     app:borderColor="@color/gray_2">
 

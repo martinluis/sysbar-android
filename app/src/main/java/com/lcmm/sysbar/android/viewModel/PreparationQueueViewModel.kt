@@ -39,6 +39,16 @@ class PreparationQueueViewModel : ViewModel() {
         }
     }
 
+
+    fun startAutoRefresh(intervalMillis: Long = 5000L) {
+        viewModelScope.launch {
+            while (true) {
+                fetchActives()
+                kotlinx.coroutines.delay(intervalMillis)
+            }
+        }
+    }
+
     /**
      *
      */

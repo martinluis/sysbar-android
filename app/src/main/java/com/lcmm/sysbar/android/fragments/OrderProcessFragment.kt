@@ -92,7 +92,15 @@ class OrderProcessFragment : Fragment() {
         binding.preparationQueueSummaryList.layoutManager = LinearLayoutManager(context)
         binding.preparationQueueSummaryList.adapter = preparationQueueSummaryAdapter
 
-        initPreparationQueueDetailsView( preparationQueueSummaryList[selectedIndex] )
+        if (preparationQueueSummaryList.isNotEmpty()) {
+            if (preparationQueueSummaryList.size < selectedIndex) {
+                selectedIndex = 0
+            }
+            this.binding.preparationQueueDetailsContainer.visibility = View.VISIBLE
+            initPreparationQueueDetailsView( preparationQueueSummaryList[selectedIndex] )
+        } else {
+            this.binding.preparationQueueDetailsContainer.visibility = View.INVISIBLE
+        }
     }
 
     /**
@@ -113,7 +121,7 @@ class OrderProcessFragment : Fragment() {
             }
         }
 
-        preparationQueueViewModel.fetchActives()
+        preparationQueueViewModel.startAutoRefresh(5000L)
     }
 
     /**
