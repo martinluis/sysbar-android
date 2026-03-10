@@ -85,11 +85,11 @@ class OrderFragment : Fragment() {
                 val orderItemsFiltered = orderItems.filter { it.quantity > 0 }
                 if (orderItemsFiltered.isNotEmpty()) {
                     if (order?.id == null) {
-                        order?.items = orderItems.toMutableList()
+                        order?.items = orderItemsFiltered.toMutableList()
                         orderViewModel.createOrder(order!!)
                     }
                     else {
-                        orderViewModel.addItemsToOrder(order?.id!!, orderItems)
+                        orderViewModel.addItemsToOrder(order?.id!!, orderItemsFiltered)
                     }
                 }
             }

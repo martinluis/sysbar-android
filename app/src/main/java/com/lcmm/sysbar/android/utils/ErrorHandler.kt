@@ -33,7 +33,7 @@ class ErrorHandler { companion object {
 
                 parsedError
             } catch (jsonEx: JSONException) {
-                ErrorResponse(ex.code(), ex.message() ?: "HTTP ERROR: ${ex.code()}")
+                ErrorResponse(ex.code(), ex.message ?: "HTTP ERROR: ${ex.code()}")
             }
 
             errorLiveData.postValue(errorResponse)

@@ -62,23 +62,20 @@ class AccessFragment : Fragment() {
             }
         }
 
-        binding.codeInput.editText?.setOnEditorActionListener { _, _, _ ->
-            val code = binding.codeInput.editText?.text.toString()
-            if (code.isNotEmpty()) {
-                userViewModel.requestUserAccess(code)
-            }
-            true
-        }
+        binding.codeInput.editText?.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE ||
+                (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
 
-        binding.codeInput.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val code = binding.codeInput.editText?.text.toString()
-                userViewModel.requestUserAccess(code)
-                true // Return true to indicate that the key event is handled
+                if (code.isNotEmpty()) {
+                    userViewModel.requestUserAccess(code)
+                }
+                true
             } else {
                 false
             }
         }
+
     }
 
     /**
